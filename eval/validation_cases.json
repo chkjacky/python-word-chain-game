@@ -1,0 +1,222 @@
+[
+  {
+    "name": "valid_medium_word",
+    "word": "nectar",
+    "last_letter": "n",
+    "used_words": [],
+    "difficulty": "medium",
+    "dict_mode": "found",
+    "expected_valid": true,
+    "expected_reason": null
+  },
+  {
+    "name": "wrong_letter",
+    "word": "radio",
+    "last_letter": "x",
+    "used_words": [],
+    "difficulty": "medium",
+    "dict_mode": "found",
+    "expected_valid": false,
+    "expected_reason": "wrong_letter"
+  },
+  {
+    "name": "repeated_word",
+    "word": "nectar",
+    "last_letter": "n",
+    "used_words": ["nectar"],
+    "difficulty": "medium",
+    "dict_mode": "found",
+    "expected_valid": false,
+    "expected_reason": "repeated_word"
+  },
+  {
+    "name": "too_short_for_easy",
+    "word": "ox",
+    "last_letter": "o",
+    "used_words": [],
+    "difficulty": "easy",
+    "dict_mode": "found",
+    "expected_valid": false,
+    "expected_reason": "invalid_length"
+  },
+  {
+    "name": "too_long_for_hard",
+    "word": "extraordinarily",
+    "last_letter": "e",
+    "used_words": [],
+    "difficulty": "hard",
+    "dict_mode": "found",
+    "expected_valid": false,
+    "expected_reason": "invalid_length"
+  },
+  {
+    "name": "not_a_real_word",
+    "word": "zzzqx",
+    "last_letter": "z",
+    "used_words": [],
+    "difficulty": "easy",
+    "dict_mode": "not_found",
+    "expected_valid": false,
+    "expected_reason": "not_a_real_word"
+  },
+  {
+    "name": "too_common_for_hard",
+    "word": "beautiful",
+    "last_letter": "b",
+    "used_words": [],
+    "difficulty": "hard",
+    "dict_mode": "found",
+    "expected_valid": false,
+    "expected_reason": "wrong_difficulty"
+  },
+  {
+    "name": "valid_easy_word",
+    "word": "house",
+    "last_letter": "h",
+    "used_words": [],
+    "difficulty": "easy",
+    "dict_mode": "found",
+    "expected_valid": true,
+    "expected_reason": null
+  },
+  {
+    "name": "valid_hard_uncommon_word",
+    "word": "quixotic",
+    "last_letter": "q",
+    "used_words": [],
+    "difficulty": "hard",
+    "dict_mode": "found",
+    "expected_valid": true,
+    "expected_reason": null
+  },
+  {
+    "name": "dictionary_outage_degrades_to_valid",
+    "word": "house",
+    "last_letter": "h",
+    "used_words": [],
+    "difficulty": "easy",
+    "dict_mode": "outage",
+    "expected_valid": true,
+    "expected_reason": null
+  },
+  {
+    "name": "dictionary_outage_degrades_to_invalid",
+    "word": "zzzqx",
+    "last_letter": "z",
+    "used_words": [],
+    "difficulty": "easy",
+    "dict_mode": "outage",
+    "expected_valid": false,
+    "expected_reason": "not_a_real_word"
+  },
+  {
+    "name": "empty_input",
+    "word": "",
+    "last_letter": "n",
+    "used_words": [],
+    "difficulty": "medium",
+    "dict_mode": "found",
+    "expected_valid": false,
+    "expected_reason": "empty_input"
+  },
+  {
+    "name": "whitespace_only_input",
+    "word": "   ",
+    "last_letter": "n",
+    "used_words": [],
+    "difficulty": "medium",
+    "dict_mode": "found",
+    "expected_valid": false,
+    "expected_reason": "empty_input"
+  },
+  {
+    "name": "overlong_input",
+    "word": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "last_letter": "a",
+    "used_words": [],
+    "difficulty": "medium",
+    "dict_mode": "found",
+    "expected_valid": false,
+    "expected_reason": "invalid_format"
+  },
+  {
+    "name": "case_and_whitespace_normalized_valid",
+    "word": " Nectar ",
+    "last_letter": "N",
+    "used_words": [],
+    "difficulty": "medium",
+    "dict_mode": "found",
+    "expected_valid": true,
+    "expected_reason": null
+  },
+  {
+    "name": "case_and_whitespace_normalized_repeated",
+    "word": " Nectar ",
+    "last_letter": "N",
+    "used_words": ["nectar"],
+    "difficulty": "medium",
+    "dict_mode": "found",
+    "expected_valid": false,
+    "expected_reason": "repeated_word"
+  },
+  {
+    "name": "medium_min_length_boundary",
+    "word": "garden",
+    "last_letter": "g",
+    "used_words": [],
+    "difficulty": "medium",
+    "dict_mode": "found",
+    "expected_valid": true,
+    "expected_reason": null
+  },
+  {
+    "name": "medium_max_length_boundary",
+    "word": "treasure",
+    "last_letter": "t",
+    "used_words": [],
+    "difficulty": "medium",
+    "dict_mode": "found",
+    "expected_valid": true,
+    "expected_reason": null
+  },
+  {
+    "name": "easy_min_length_boundary",
+    "word": "baby",
+    "last_letter": "b",
+    "used_words": [],
+    "difficulty": "easy",
+    "dict_mode": "found",
+    "expected_valid": true,
+    "expected_reason": null
+  },
+  {
+    "name": "easy_max_length_boundary",
+    "word": "dragon",
+    "last_letter": "d",
+    "used_words": [],
+    "difficulty": "easy",
+    "dict_mode": "found",
+    "expected_valid": true,
+    "expected_reason": null
+  },
+  {
+    "name": "hard_min_length_boundary",
+    "word": "xylophone",
+    "last_letter": "x",
+    "used_words": [],
+    "difficulty": "hard",
+    "dict_mode": "found",
+    "expected_valid": true,
+    "expected_reason": null
+  },
+  {
+    "name": "hard_repeated_word",
+    "word": "quixotic",
+    "last_letter": "q",
+    "used_words": ["quixotic"],
+    "difficulty": "hard",
+    "dict_mode": "found",
+    "expected_valid": false,
+    "expected_reason": "repeated_word"
+  }
+]

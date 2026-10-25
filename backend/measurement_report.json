@@ -1,0 +1,26 @@
+{
+  "easy": {
+    "games_played": 5,
+    "games_completed_full_10_rounds": 5,
+    "p50_latency_ms": 4453.302645499207,
+    "p95_latency_ms": 5207.50291844888,
+    "avg_cost_usd_per_game": 0.0028178699999999997,
+    "turns_measured": 50
+  },
+  "medium": {
+    "games_played": 5,
+    "games_completed_full_10_rounds": 5,
+    "p50_latency_ms": 5492.597541498981,
+    "p95_latency_ms": 7208.7422042030075,
+    "avg_cost_usd_per_game": 0.0038004,
+    "turns_measured": 50
+  },
+  "hard": {
+    "games_played": 5,
+    "games_completed_full_10_rounds": 5,
+    "p50_latency_ms": 7527.528957998584,
+    "p95_latency_ms": 8993.521478497494,
+    "avg_cost_usd_per_game": 0.00461496,
+    "turns_measured": 50
+  }
+}

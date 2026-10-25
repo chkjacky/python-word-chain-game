@@ -1,0 +1,1216 @@
+{
+  "validation_accuracy": {
+    "dimension": "validation_accuracy",
+    "cases": 22,
+    "accuracy": 1.0,
+    "passed": true,
+    "details": [
+      {
+        "name": "valid_medium_word",
+        "expected_valid": true,
+        "expected_reason": null,
+        "actual_valid": true,
+        "actual_reason": null,
+        "passed": true
+      },
+      {
+        "name": "wrong_letter",
+        "expected_valid": false,
+        "expected_reason": "wrong_letter",
+        "actual_valid": false,
+        "actual_reason": "wrong_letter",
+        "passed": true
+      },
+      {
+        "name": "repeated_word",
+        "expected_valid": false,
+        "expected_reason": "repeated_word",
+        "actual_valid": false,
+        "actual_reason": "repeated_word",
+        "passed": true
+      },
+      {
+        "name": "too_short_for_easy",
+        "expected_valid": false,
+        "expected_reason": "invalid_length",
+        "actual_valid": false,
+        "actual_reason": "invalid_length",
+        "passed": true
+      },
+      {
+        "name": "too_long_for_hard",
+        "expected_valid": false,
+        "expected_reason": "invalid_length",
+        "actual_valid": false,
+        "actual_reason": "invalid_length",
+        "passed": true
+      },
+      {
+        "name": "not_a_real_word",
+        "expected_valid": false,
+        "expected_reason": "not_a_real_word",
+        "actual_valid": false,
+        "actual_reason": "not_a_real_word",
+        "passed": true
+      },
+      {
+        "name": "too_common_for_hard",
+        "expected_valid": false,
+        "expected_reason": "wrong_difficulty",
+        "actual_valid": false,
+        "actual_reason": "wrong_difficulty",
+        "passed": true
+      },
+      {
+        "name": "valid_easy_word",
+        "expected_valid": true,
+        "expected_reason": null,
+        "actual_valid": true,
+        "actual_reason": null,
+        "passed": true
+      },
+      {
+        "name": "valid_hard_uncommon_word",
+        "expected_valid": true,
+        "expected_reason": null,
+        "actual_valid": true,
+        "actual_reason": null,
+        "passed": true
+      },
+      {
+        "name": "dictionary_outage_degrades_to_valid",
+        "expected_valid": true,
+        "expected_reason": null,
+        "actual_valid": true,
+        "actual_reason": null,
+        "passed": true
+      },
+      {
+        "name": "dictionary_outage_degrades_to_invalid",
+        "expected_valid": false,
+        "expected_reason": "not_a_real_word",
+        "actual_valid": false,
+        "actual_reason": "not_a_real_word",
+        "passed": true
+      },
+      {
+        "name": "empty_input",
+        "expected_valid": false,
+        "expected_reason": "empty_input",
+        "actual_valid": false,
+        "actual_reason": "empty_input",
+        "passed": true
+      },
+      {
+        "name": "whitespace_only_input",
+        "expected_valid": false,
+        "expected_reason": "empty_input",
+        "actual_valid": false,
+        "actual_reason": "empty_input",
+        "passed": true
+      },
+      {
+        "name": "overlong_input",
+        "expected_valid": false,
+        "expected_reason": "invalid_format",
+        "actual_valid": false,
+        "actual_reason": "invalid_format",
+        "passed": true
+      },
+      {
+        "name": "case_and_whitespace_normalized_valid",
+        "expected_valid": true,
+        "expected_reason": null,
+        "actual_valid": true,
+        "actual_reason": null,
+        "passed": true
+      },
+      {
+        "name": "case_and_whitespace_normalized_repeated",
+        "expected_valid": false,
+        "expected_reason": "repeated_word",
+        "actual_valid": false,
+        "actual_reason": "repeated_word",
+        "passed": true
+      },
+      {
+        "name": "medium_min_length_boundary",
+        "expected_valid": true,
+        "expected_reason": null,
+        "actual_valid": true,
+        "actual_reason": null,
+        "passed": true
+      },
+      {
+        "name": "medium_max_length_boundary",
+        "expected_valid": true,
+        "expected_reason": null,
+        "actual_valid": true,
+        "actual_reason": null,
+        "passed": true
+      },
+      {
+        "name": "easy_min_length_boundary",
+        "expected_valid": true,
+        "expected_reason": null,
+        "actual_valid": true,
+        "actual_reason": null,
+        "passed": true
+      },
+      {
+        "name": "easy_max_length_boundary",
+        "expected_valid": true,
+        "expected_reason": null,
+        "actual_valid": true,
+        "actual_reason": null,
+        "passed": true
+      },
+      {
+        "name": "hard_min_length_boundary",
+        "expected_valid": true,
+        "expected_reason": null,
+        "actual_valid": true,
+        "actual_reason": null,
+        "passed": true
+      },
+      {
+        "name": "hard_repeated_word",
+        "expected_valid": false,
+        "expected_reason": "repeated_word",
+        "actual_valid": false,
+        "actual_reason": "repeated_word",
+        "passed": true
+      }
+    ]
+  },
+  "creativity_calibration": {
+    "dimension": "creativity_calibration",
+    "cases": 22,
+    "precision": 1.0,
+    "recall": 0.18181818181818182,
+    "agreement": 0.5909090909090909,
+    "passed": false,
+    "details": [
+      {
+        "word": "zebra",
+        "difficulty": "easy",
+        "human_label": true,
+        "model_label": false,
+        "agree": false
+      },
+      {
+        "word": "chair",
+        "difficulty": "easy",
+        "human_label": false,
+        "model_label": false,
+        "agree": true
+      },
+      {
+        "word": "pizza",
+        "difficulty": "easy",
+        "human_label": false,
+        "model_label": false,
+        "agree": true
+      },
+      {
+        "word": "ninja",
+        "difficulty": "easy",
+        "human_label": true,
+        "model_label": false,
+        "agree": false
+      },
+      {
+        "word": "happy",
+        "difficulty": "easy",
+        "human_label": false,
+        "model_label": false,
+        "agree": true
+      },
+      {
+        "word": "mango",
+        "difficulty": "easy",
+        "human_label": true,
+        "model_label": false,
+        "agree": false
+      },
+      {
+        "word": "volcano",
+        "difficulty": "medium",
+        "human_label": true,
+        "model_label": false,
+        "agree": false
+      },
+      {
+        "word": "picture",
+        "difficulty": "medium",
+        "human_label": false,
+        "model_label": false,
+        "agree": true
+      },
+      {
+        "word": "dolphin",
+        "difficulty": "medium",
+        "human_label": true,
+        "model_label": false,
+        "agree": false
+      },
+      {
+        "word": "kitchen",
+        "difficulty": "medium",
+        "human_label": false,
+        "model_label": false,
+        "agree": true
+      },
+      {
+        "word": "mystery",
+        "difficulty": "medium",
+        "human_label": true,
+        "model_label": false,
+        "agree": false
+      },
+      {
+        "word": "problem",
+        "difficulty": "medium",
+        "human_label": false,
+        "model_label": false,
+        "agree": true
+      },
+      {
+        "word": "glacier",
+        "difficulty": "medium",
+        "human_label": true,
+        "model_label": true,
+        "agree": true
+      },
+      {
+        "word": "morning",
+        "difficulty": "medium",
+        "human_label": false,
+        "model_label": false,
+        "agree": true
+      },
+      {
+        "word": "xylophone",
+        "difficulty": "hard",
+        "human_label": true,
+        "model_label": true,
+        "agree": true
+      },
+      {
+        "word": "important",
+        "difficulty": "hard",
+        "human_label": false,
+        "model_label": false,
+        "agree": true
+      },
+      {
+        "word": "sensation",
+        "difficulty": "hard",
+        "human_label": true,
+        "model_label": false,
+        "agree": false
+      },
+      {
+        "word": "telephone",
+        "difficulty": "hard",
+        "human_label": false,
+        "model_label": false,
+        "agree": true
+      },
+      {
+        "word": "zoological",
+        "difficulty": "hard",
+        "human_label": true,
+        "model_label": false,
+        "agree": false
+      },
+      {
+        "word": "chocolate",
+        "difficulty": "hard",
+        "human_label": false,
+        "model_label": false,
+        "agree": true
+      },
+      {
+        "word": "quarantine",
+        "difficulty": "hard",
+        "human_label": false,
+        "model_label": false,
+        "agree": true
+      },
+      {
+        "word": "butterfly",
+        "difficulty": "hard",
+        "human_label": true,
+        "model_label": false,
+        "agree": false
+      }
+    ],
+    "_trace_records": [
+      {
+        "step": "judge_creativity",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 128,
+        "tokens_out": 324,
+        "latency_ms": 5973,
+        "cost_usd": 0.0002136,
+        "outcome": "creative=False",
+        "retries": 0
+      },
+      {
+        "step": "judge_creativity",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 128,
+        "tokens_out": 244,
+        "latency_ms": 3352,
+        "cost_usd": 0.0001656,
+        "outcome": "creative=False",
+        "retries": 0
+      },
+      {
+        "step": "judge_creativity",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 128,
+        "tokens_out": 180,
+        "latency_ms": 2845,
+        "cost_usd": 0.00012719999999999997,
+        "outcome": "creative=False",
+        "retries": 0
+      },
+      {
+        "step": "judge_creativity",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 128,
+        "tokens_out": 250,
+        "latency_ms": 3177,
+        "cost_usd": 0.0001692,
+        "outcome": "creative=False",
+        "retries": 0
+      },
+      {
+        "step": "judge_creativity",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 128,
+        "tokens_out": 182,
+        "latency_ms": 2672,
+        "cost_usd": 0.00012839999999999998,
+        "outcome": "creative=False",
+        "retries": 0
+      },
+      {
+        "step": "judge_creativity",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 128,
+        "tokens_out": 341,
+        "latency_ms": 3951,
+        "cost_usd": 0.0002238,
+        "outcome": "creative=False",
+        "retries": 0
+      },
+      {
+        "step": "judge_creativity",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 128,
+        "tokens_out": 329,
+        "latency_ms": 3932,
+        "cost_usd": 0.0002166,
+        "outcome": "creative=False",
+        "retries": 0
+      },
+      {
+        "step": "judge_creativity",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 128,
+        "tokens_out": 191,
+        "latency_ms": 3570,
+        "cost_usd": 0.0001338,
+        "outcome": "creative=False",
+        "retries": 0
+      },
+      {
+        "step": "judge_creativity",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 128,
+        "tokens_out": 324,
+        "latency_ms": 4415,
+        "cost_usd": 0.0002136,
+        "outcome": "creative=False",
+        "retries": 0
+      },
+      {
+        "step": "judge_creativity",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 128,
+        "tokens_out": 340,
+        "latency_ms": 4711,
+        "cost_usd": 0.0002232,
+        "outcome": "creative=False",
+        "retries": 0
+      },
+      {
+        "step": "judge_creativity",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 128,
+        "tokens_out": 312,
+        "latency_ms": 4299,
+        "cost_usd": 0.0002064,
+        "outcome": "creative=False",
+        "retries": 0
+      },
+      {
+        "step": "judge_creativity",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 128,
+        "tokens_out": 251,
+        "latency_ms": 4074,
+        "cost_usd": 0.00016979999999999998,
+        "outcome": "creative=False",
+        "retries": 0
+      },
+      {
+        "step": "judge_creativity",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 128,
+        "tokens_out": 383,
+        "latency_ms": 5811,
+        "cost_usd": 0.000249,
+        "outcome": "creative=True",
+        "retries": 0
+      },
+      {
+        "step": "judge_creativity",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 128,
+        "tokens_out": 405,
+        "latency_ms": 6309,
+        "cost_usd": 0.0002622,
+        "outcome": "creative=False",
+        "retries": 0
+      },
+      {
+        "step": "judge_creativity",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 333,
+        "latency_ms": 5296,
+        "cost_usd": 0.00021930000000000002,
+        "outcome": "creative=True",
+        "retries": 0
+      },
+      {
+        "step": "judge_creativity",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 128,
+        "tokens_out": 252,
+        "latency_ms": 3880,
+        "cost_usd": 0.0001704,
+        "outcome": "creative=False",
+        "retries": 0
+      },
+      {
+        "step": "judge_creativity",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 128,
+        "tokens_out": 333,
+        "latency_ms": 4658,
+        "cost_usd": 0.000219,
+        "outcome": "creative=False",
+        "retries": 0
+      },
+      {
+        "step": "judge_creativity",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 128,
+        "tokens_out": 331,
+        "latency_ms": 4246,
+        "cost_usd": 0.0002178,
+        "outcome": "creative=False",
+        "retries": 0
+      },
+      {
+        "step": "judge_creativity",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 129,
+        "tokens_out": 395,
+        "latency_ms": 4789,
+        "cost_usd": 0.00025634999999999997,
+        "outcome": "creative=False",
+        "retries": 0
+      },
+      {
+        "step": "judge_creativity",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 128,
+        "tokens_out": 132,
+        "latency_ms": 2582,
+        "cost_usd": 9.84e-05,
+        "outcome": "creative=False",
+        "retries": 0
+      },
+      {
+        "step": "judge_creativity",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 128,
+        "tokens_out": 323,
+        "latency_ms": 3836,
+        "cost_usd": 0.000213,
+        "outcome": "creative=False",
+        "retries": 0
+      },
+      {
+        "step": "judge_creativity",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 128,
+        "tokens_out": 333,
+        "latency_ms": 3688,
+        "cost_usd": 0.000219,
+        "outcome": "creative=False",
+        "retries": 0
+      }
+    ]
+  },
+  "hard_mode_no_s_compliance": {
+    "dimension": "hard_mode_no_s_compliance",
+    "generations": 30,
+    "s_ending_rate": 0.0,
+    "average_retries": 0,
+    "passed": true,
+    "details": [
+      {
+        "last_letter": "a",
+        "word": "advocate",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "b",
+        "word": "butterfly",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "c",
+        "word": "consequence",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "d",
+        "word": "dandelion",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "e",
+        "word": "elephant",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "f",
+        "word": "foundation",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "g",
+        "word": "guardian",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "h",
+        "word": "harmonica",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "i",
+        "word": "innovation",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "j",
+        "word": "junction",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "k",
+        "word": "knowledge",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "l",
+        "word": "lighthouse",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "m",
+        "word": "magnitude",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "n",
+        "word": "narrative",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "o",
+        "word": "operation",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "p",
+        "word": "pineapple",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "q",
+        "word": "question",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "r",
+        "word": "research",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "s",
+        "word": "sunflower",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "t",
+        "word": "temptation",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "u",
+        "word": "umbrella",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "v",
+        "word": "validation",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "w",
+        "word": "whispered",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "x",
+        "word": "xylophone",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "y",
+        "word": "yesterday",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "z",
+        "word": "zeppelin",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "a",
+        "word": "algorithm",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "b",
+        "word": "blueberry",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "c",
+        "word": "companion",
+        "ends_in_s": false,
+        "retries": 0
+      },
+      {
+        "last_letter": "d",
+        "word": "diligence",
+        "ends_in_s": false,
+        "retries": 0
+      }
+    ],
+    "_trace_records": [
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 275,
+        "latency_ms": 3320,
+        "cost_usd": 0.00018449999999999999,
+        "outcome": "word=advocate",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 148,
+        "latency_ms": 2517,
+        "cost_usd": 0.00010829999999999999,
+        "outcome": "word=butterfly",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 339,
+        "latency_ms": 3623,
+        "cost_usd": 0.0002229,
+        "outcome": "word=consequence",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 148,
+        "latency_ms": 2558,
+        "cost_usd": 0.00010829999999999999,
+        "outcome": "word=dandelion",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 211,
+        "latency_ms": 2873,
+        "cost_usd": 0.00014609999999999997,
+        "outcome": "word=elephant",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 210,
+        "latency_ms": 3089,
+        "cost_usd": 0.00014549999999999996,
+        "outcome": "word=foundation",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 210,
+        "latency_ms": 3296,
+        "cost_usd": 0.00014549999999999996,
+        "outcome": "word=guardian",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 147,
+        "latency_ms": 2619,
+        "cost_usd": 0.00010769999999999999,
+        "outcome": "word=harmonica",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 210,
+        "latency_ms": 4169,
+        "cost_usd": 0.00014549999999999996,
+        "outcome": "word=innovation",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 146,
+        "latency_ms": 3259,
+        "cost_usd": 0.00010709999999999999,
+        "outcome": "word=junction",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 146,
+        "latency_ms": 3463,
+        "cost_usd": 0.00010709999999999999,
+        "outcome": "word=knowledge",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 147,
+        "latency_ms": 3338,
+        "cost_usd": 0.00010769999999999999,
+        "outcome": "word=lighthouse",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 211,
+        "latency_ms": 4201,
+        "cost_usd": 0.00014609999999999997,
+        "outcome": "word=magnitude",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 148,
+        "latency_ms": 2838,
+        "cost_usd": 0.00010829999999999999,
+        "outcome": "word=narrative",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 146,
+        "latency_ms": 3124,
+        "cost_usd": 0.00010709999999999999,
+        "outcome": "word=operation",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 147,
+        "latency_ms": 3040,
+        "cost_usd": 0.00010769999999999999,
+        "outcome": "word=pineapple",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 210,
+        "latency_ms": 3234,
+        "cost_usd": 0.00014549999999999996,
+        "outcome": "word=question",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 210,
+        "latency_ms": 3781,
+        "cost_usd": 0.00014549999999999996,
+        "outcome": "word=research",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 147,
+        "latency_ms": 2249,
+        "cost_usd": 0.00010769999999999999,
+        "outcome": "word=sunflower",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 147,
+        "latency_ms": 2597,
+        "cost_usd": 0.00010769999999999999,
+        "outcome": "word=temptation",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 275,
+        "latency_ms": 2988,
+        "cost_usd": 0.00018449999999999999,
+        "outcome": "word=umbrella",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 210,
+        "latency_ms": 2891,
+        "cost_usd": 0.00014549999999999996,
+        "outcome": "word=validation",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 276,
+        "latency_ms": 3351,
+        "cost_usd": 0.0001851,
+        "outcome": "word=whispered",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 212,
+        "latency_ms": 2973,
+        "cost_usd": 0.0001467,
+        "outcome": "word=xylophone",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 147,
+        "latency_ms": 2353,
+        "cost_usd": 0.00010769999999999999,
+        "outcome": "word=yesterday",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 210,
+        "latency_ms": 3010,
+        "cost_usd": 0.00014549999999999996,
+        "outcome": "word=zeppelin",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 210,
+        "latency_ms": 3772,
+        "cost_usd": 0.00014549999999999996,
+        "outcome": "word=algorithm",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 211,
+        "latency_ms": 3193,
+        "cost_usd": 0.00014609999999999997,
+        "outcome": "word=blueberry",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 147,
+        "latency_ms": 3146,
+        "cost_usd": 0.00010769999999999999,
+        "outcome": "word=companion",
+        "retries": 0
+      },
+      {
+        "step": "generate_ai_move",
+        "input": null,
+        "tool_calls": null,
+        "model": "gpt-5-mini",
+        "tokens_in": 130,
+        "tokens_out": 276,
+        "latency_ms": 4375,
+        "cost_usd": 0.0001851,
+        "outcome": "word=diligence",
+        "retries": 0
+      }
+    ]
+  },
+  "adversarial_robustness": {
+    "dimension": "adversarial_robustness",
+    "cases": 5,
+    "passed": true,
+    "details": [
+      {
+        "name": "empty_string",
+        "status_code": 200,
+        "reason": "empty_input",
+        "crashed": false,
+        "passed": true
+      },
+      {
+        "name": "whitespace_only",
+        "status_code": 200,
+        "reason": "empty_input",
+        "crashed": false,
+        "passed": true
+      },
+      {
+        "name": "unicode_emoji",
+        "status_code": 200,
+        "reason": "wrong_letter",
+        "crashed": false,
+        "passed": true
+      },
+      {
+        "name": "two_hundred_chars",
+        "status_code": 200,
+        "reason": "invalid_format",
+        "crashed": false,
+        "passed": true
+      },
+      {
+        "name": "sql_injection_looking",
+        "status_code": 200,
+        "reason": "wrong_letter",
+        "crashed": false,
+        "passed": true
+      }
+    ]
+  },
+  "performance": {
+    "note": "Latency/cost observed during eval dimensions 2 & 3 only, not a full-game benchmark. See backend/scripts/measure_games.py (Step 12) for p50/p95 full-turn latency and cost-per-game-per-difficulty.",
+    "p50_latency_ms": 3344.5,
+    "p95_latency_ms": 5527.749999999998,
+    "avg_cost_usd": 0.00016205480769230767,
+    "samples": 52
+  }
+}
