@@ -2,6 +2,24 @@
 
 AI opens with a word, the player replies with a word starting from the last letter, scored and adjudicated by a multi-step Google ADK agent.
 
+## Sample Pages
+
+### Homepage
+
+![Homepage](https://raw.githubusercontent.com/chkjacky/python-word-chain-game/refs/heads/main/samples/homepage.png)
+
+### Game Screen
+
+![Game-Screen](https://github.com/chkjacky/python-word-chain-game/blob/main/samples/game-screen.png?raw=true)
+
+### Statistic Page
+
+![StatPage](https://github.com/chkjacky/python-word-chain-game/blob/main/samples/stat-page.png?raw=true)
+
+### Leaderboard Page
+
+![Leaderboard](https://github.com/chkjacky/python-word-chain-game/blob/main/samples/leaderboard.png?raw=true)
+
 ## Game rules
 
 **Flow.** The AI opens with a word. You reply with a word starting with the last letter of the previous word. This continues for 10 rounds (AI + player = 1 round each).
@@ -20,9 +38,9 @@ A _valid but uncreative_ word does **not** end the game - it's just worth fewer 
 
 | Difficulty | Length | Word pool  | Extra rule                                                                                        |
 | ---------- | ------ | ---------- | ------------------------------------------------------------------------------------------------- |
-| Easy       | 4–6    | common     | -                                                                                                 |
-| Medium     | 6–8    | well-known | -                                                                                                 |
-| Hard       | 8–12   | uncommon   | the AI never produces a word ending in "s" (retries until compliant, never truncates/substitutes) |
+| Easy       | 4-6    | common     | -                                                                                                 |
+| Medium     | 6-8    | well-known | -                                                                                                 |
+| Hard       | 8-12   | uncommon   | the AI never produces a word ending in "s" (retries until compliant, never truncates/substitutes) |
 
 **Scoring**, applied in this exact order:
 
