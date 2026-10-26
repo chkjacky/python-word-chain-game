@@ -2,64 +2,6 @@
 
 AI opens with a word, the player replies with a word starting from the last letter, scored and adjudicated by a multi-step Google ADK agent.
 
-## 🩻 Sample Pages
-
-### Homepage
-
-![Homepage](https://raw.githubusercontent.com/chkjacky/python-word-chain-game/refs/heads/main/samples/homepage.png)
-
-### Game Screen
-
-![Game-Screen-Easy](https://github.com/chkjacky/python-word-chain-game/blob/main/samples/game-screen-easy.png?raw=true)
-![Game-Screen-Medium](https://github.com/chkjacky/python-word-chain-game/blob/main/samples/game-screen-medium.png?raw=true)
-![Game-Screen-Hard](https://github.com/chkjacky/python-word-chain-game/blob/main/samples/game-screen-hard.png?raw=true)
-
-### Statistic Page
-
-![StatPage](https://github.com/chkjacky/python-word-chain-game/blob/main/samples/stat-page.png?raw=true)
-
-### Leaderboard Page
-
-![Leaderboard](https://github.com/chkjacky/python-word-chain-game/blob/main/samples/leaderboard.png?raw=true)
-
-### Trace
-![Trace](https://github.com/chkjacky/python-word-chain-game/blob/main/samples/trace.png?raw=true)
-
-## 🎲 Game Rules
-
-**Flow.** The AI opens with a word. You reply with a word starting with the last letter of the previous word. This continues for 10 rounds (AI + player = 1 round each).
-
-**What ends the game.** Only an _invalid_ word ends it immediately - no retries, no partial credit:
-
-- doesn't start with the required last letter
-- already used earlier in this game
-- wrong length for the chosen difficulty
-- not a real word
-- wrong difficulty tier (too common for Hard, too obscure for Easy/Medium)
-
-A _valid but uncreative_ word does **not** end the game - it's just worth fewer points and resets your creativity streak (see below).
-
-**Difficulty bands:**
-
-| Difficulty | Length | Word pool  | Extra rule                                                                                        |
-| ---------- | ------ | ---------- | ------------------------------------------------------------------------------------------------- |
-| Easy       | 4-6    | common     | -                                                                                                 |
-| Medium     | 6-8    | well-known | -                                                                                                 |
-| Hard       | 8-12   | uncommon   | the AI never produces a word ending in "s" (retries until compliant, never truncates/substitutes) |
-
-**Scoring**, applied in this exact order:
-
-1. **+10** base, for any valid word
-2. **+5** if the word is judged creative (rare/surprising for the difficulty band)
-3. **×2** on the subtotal, once every 3rd _consecutive_ creative word (3rd, 6th, 9th creative word in a row - breaking the streak with one uncreative word resets the count)
-4. **+1 per letter** beyond 5, added last (e.g. a 13-letter word gets +8)
-
-Example: a 13-letter word that's your 3rd consecutive creative word -> `10 -> +5 = 15 -> ×2 = 30 -> +8 length = 38`. The same word as your 2nd consecutive creative word (no cascade) -> `10 -> +5 = 15 -> +8 length = 23`.
-
-## 🔋 Current Status
-
-**Creativity calibration** currently has low recall (0.18) against the held-out set - see `eval/eval_report.md`. Precision is 1.0 (no false positives), but the judge is conservative and misses genuinely creative words more often than it should.
-
 ## ⚙️ Tech Stack
 
 - **Backend**: FastAPI, Google ADK (multi-step agent: `ValidatorAgent` -> `CreativityJudgeAgent` -> `MoveGeneratorAgent`), OpenAI `gpt-5-mini` via ADK's `LiteLlm` wrapper
@@ -191,6 +133,65 @@ Frontend: `NEXT_PUBLIC_API_URL`, injected by `docker-compose.yml` directly; defa
 | `GET /health`           | Liveness check                                                      |
 
 Errors use `{"error": {"code", "message"}}` with the matching HTTP status (422/404/503); plain Pydantic validation errors fall back to FastAPI's default `{"detail": [...]}` shape - `frontend/lib/api-client.ts` normalizes both into one `ApiRequestError`.
+
+## 🩻 Sample Pages
+
+### Homepage
+
+![Homepage](https://raw.githubusercontent.com/chkjacky/python-word-chain-game/refs/heads/main/samples/homepage.png)
+
+### Game Screen
+
+![Game-Screen-Easy](https://github.com/chkjacky/python-word-chain-game/blob/main/samples/game-screen-easy.png?raw=true)
+![Game-Screen-Medium](https://github.com/chkjacky/python-word-chain-game/blob/main/samples/game-screen-medium.png?raw=true)
+![Game-Screen-Hard](https://github.com/chkjacky/python-word-chain-game/blob/main/samples/game-screen-hard.png?raw=true)
+
+### Statistic Page
+
+![StatPage](https://github.com/chkjacky/python-word-chain-game/blob/main/samples/stat-page.png?raw=true)
+
+### Leaderboard Page
+
+![Leaderboard](https://github.com/chkjacky/python-word-chain-game/blob/main/samples/leaderboard.png?raw=true)
+
+### Trace
+
+![Trace](https://github.com/chkjacky/python-word-chain-game/blob/main/samples/trace.png?raw=true)
+
+## 🎲 Game Rules
+
+**Flow.** The AI opens with a word. You reply with a word starting with the last letter of the previous word. This continues for 10 rounds (AI + player = 1 round each).
+
+**What ends the game.** Only an _invalid_ word ends it immediately - no retries, no partial credit:
+
+- doesn't start with the required last letter
+- already used earlier in this game
+- wrong length for the chosen difficulty
+- not a real word
+- wrong difficulty tier (too common for Hard, too obscure for Easy/Medium)
+
+A _valid but uncreative_ word does **not** end the game - it's just worth fewer points and resets your creativity streak (see below).
+
+**Difficulty bands:**
+
+| Difficulty | Length | Word pool  | Extra rule                                                                                        |
+| ---------- | ------ | ---------- | ------------------------------------------------------------------------------------------------- |
+| Easy       | 4-6    | common     | -                                                                                                 |
+| Medium     | 6-8    | well-known | -                                                                                                 |
+| Hard       | 8-12   | uncommon   | the AI never produces a word ending in "s" (retries until compliant, never truncates/substitutes) |
+
+**Scoring**, applied in this exact order:
+
+1. **+10** base, for any valid word
+2. **+5** if the word is judged creative (rare/surprising for the difficulty band)
+3. **×2** on the subtotal, once every 3rd _consecutive_ creative word (3rd, 6th, 9th creative word in a row - breaking the streak with one uncreative word resets the count)
+4. **+1 per letter** beyond 5, added last (e.g. a 13-letter word gets +8)
+
+Example: a 13-letter word that's your 3rd consecutive creative word -> `10 -> +5 = 15 -> ×2 = 30 -> +8 length = 38`. The same word as your 2nd consecutive creative word (no cascade) -> `10 -> +5 = 15 -> +8 length = 23`.
+
+## 🔋 Current Status
+
+**Creativity calibration** currently has low recall (0.18) against the held-out set - see `eval/eval_report.md`. Precision is 1.0 (no false positives), but the judge is conservative and misses genuinely creative words more often than it should.
 
 ## 🧪 Running Tests
 
