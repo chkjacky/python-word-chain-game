@@ -10,7 +10,9 @@ AI opens with a word, the player replies with a word starting from the last lett
 
 ### Game Screen
 
-![Game-Screen](https://github.com/chkjacky/python-word-chain-game/blob/main/samples/game-screen.png?raw=true)
+![Game-Screen-Easy](https://github.com/chkjacky/python-word-chain-game/blob/main/samples/game-screen-easy.png?raw=true)
+![Game-Screen-Medium](https://github.com/chkjacky/python-word-chain-game/blob/main/samples/game-screen-medium.png?raw=true)
+![Game-Screen-Hard](https://github.com/chkjacky/python-word-chain-game/blob/main/samples/game-screen-hard.png?raw=true)
 
 ### Statistic Page
 
@@ -19,6 +21,9 @@ AI opens with a word, the player replies with a word starting from the last lett
 ### Leaderboard Page
 
 ![Leaderboard](https://github.com/chkjacky/python-word-chain-game/blob/main/samples/leaderboard.png?raw=true)
+
+### Trace
+![Trace](https://github.com/chkjacky/python-word-chain-game/blob/main/samples/trace.png?raw=true)
 
 ## 🎲 Game Rules
 
