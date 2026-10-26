@@ -49,7 +49,7 @@ export default function Home() {
       setError(
         err instanceof ApiRequestError
           ? err.message
-          : "Something went wrong — try again.",
+          : "Something went wrong - try again.",
       );
       setLoading(false);
     }

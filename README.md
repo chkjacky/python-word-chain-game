@@ -6,7 +6,7 @@ AI opens with a word, the player replies with a word starting from the last lett
 
 **Flow.** The AI opens with a word. You reply with a word starting with the last letter of the previous word. This continues for 10 rounds (AI + player = 1 round each).
 
-**What ends the game.** Only an _invalid_ word ends it immediately — no retries, no partial credit:
+**What ends the game.** Only an _invalid_ word ends it immediately - no retries, no partial credit:
 
 - doesn't start with the required last letter
 - already used earlier in this game
@@ -14,33 +14,33 @@ AI opens with a word, the player replies with a word starting from the last lett
 - not a real word
 - wrong difficulty tier (too common for Hard, too obscure for Easy/Medium)
 
-A _valid but uncreative_ word does **not** end the game — it's just worth fewer points and resets your creativity streak (see below).
+A _valid but uncreative_ word does **not** end the game - it's just worth fewer points and resets your creativity streak (see below).
 
 **Difficulty bands:**
 
 | Difficulty | Length | Word pool  | Extra rule                                                                                        |
 | ---------- | ------ | ---------- | ------------------------------------------------------------------------------------------------- |
-| Easy       | 4–6    | common     | —                                                                                                 |
-| Medium     | 6–8    | well-known | —                                                                                                 |
+| Easy       | 4–6    | common     | -                                                                                                 |
+| Medium     | 6–8    | well-known | -                                                                                                 |
 | Hard       | 8–12   | uncommon   | the AI never produces a word ending in "s" (retries until compliant, never truncates/substitutes) |
 
 **Scoring**, applied in this exact order:
 
 1. **+10** base, for any valid word
 2. **+5** if the word is judged creative (rare/surprising for the difficulty band)
-3. **×2** on the subtotal, once every 3rd _consecutive_ creative word (3rd, 6th, 9th creative word in a row — breaking the streak with one uncreative word resets the count)
+3. **×2** on the subtotal, once every 3rd _consecutive_ creative word (3rd, 6th, 9th creative word in a row - breaking the streak with one uncreative word resets the count)
 4. **+1 per letter** beyond 5, added last (e.g. a 13-letter word gets +8)
 
 Example: a 13-letter word that's your 3rd consecutive creative word -> `10 -> +5 = 15 -> ×2 = 30 -> +8 length = 38`. The same word as your 2nd consecutive creative word (no cascade) -> `10 -> +5 = 15 -> +8 length = 23`.
 
 ## Current status
 
-**Creativity calibration** currently has low recall (0.18) against the held-out set — see `eval/eval_report.md`. Precision is 1.0 (no false positives), but the judge is conservative and misses genuinely creative words more often than it should.
+**Creativity calibration** currently has low recall (0.18) against the held-out set - see `eval/eval_report.md`. Precision is 1.0 (no false positives), but the judge is conservative and misses genuinely creative words more often than it should.
 
 ## Tech stack
 
 - **Backend**: FastAPI, Google ADK (multi-step agent: `ValidatorAgent` -> `CreativityJudgeAgent` -> `MoveGeneratorAgent`), OpenAI `gpt-5-mini` via ADK's `LiteLlm` wrapper
-- **Durable store**: SQLite (file-backed, via SQLAlchemy) — games, turns, trace entries, player stats
+- **Durable store**: SQLite (file-backed, via SQLAlchemy) - games, turns, trace entries, player stats
 - **Frontend**: Next.js 16 (App Router), Tailwind v4, shadcn/ui
 - **Container**: Docker + Docker Compose
 
@@ -108,8 +108,8 @@ docker compose up --build
 
 Then open:
 
-- `http://localhost:3000` — the game UI
-- `http://localhost:8000/docs` — Swagger UI
+- `http://localhost:3000` - the game UI
+- `http://localhost:8000/docs` - Swagger UI
 - `http://localhost:8000/health` -> `{"status":"healthy"}`
 
 Note on an easy-to-hit Docker gotcha: `docker-compose.yml` mounts `node_modules`/`.next` as **anonymous volumes** for the frontend. If you rebuild the image after changing `frontend/package.json`, the old anonymous volume can still shadow the freshly-installed `node_modules`. If you see `Module not found` errors after a rebuild, run `docker compose down -v && docker compose up --build` to drop the stale volumes too.
@@ -164,7 +164,7 @@ Frontend: `NEXT_PUBLIC_API_URL`, injected by `docker-compose.yml` directly; defa
 | `GET /leaderboard`      | Top 10 by best score                                                |
 | `GET /health`           | Liveness check                                                      |
 
-Errors use `{"error": {"code", "message"}}` with the matching HTTP status (422/404/503); plain Pydantic validation errors fall back to FastAPI's default `{"detail": [...]}` shape — `frontend/lib/api-client.ts` normalizes both into one `ApiRequestError`.
+Errors use `{"error": {"code", "message"}}` with the matching HTTP status (422/404/503); plain Pydantic validation errors fall back to FastAPI's default `{"detail": [...]}` shape - `frontend/lib/api-client.ts` normalizes both into one `ApiRequestError`.
 
 ## Running tests
 
@@ -183,7 +183,7 @@ cd backend
 .venv/bin/python ../eval/run_eval.py
 ```
 
-Runs unattended against the four required dimensions — validation accuracy (22 cases), creativity calibration vs. a held-out human-labelled set (22 cases), Hard-mode no-S compliance (30 generations), and adversarial robustness — and writes `eval/eval_report.json` / `eval/eval_report.md`. Current results are checked in; re-run to refresh them.
+Runs unattended against the four required dimensions - validation accuracy (22 cases), creativity calibration vs. a held-out human-labelled set (22 cases), Hard-mode no-S compliance (30 generations), and adversarial robustness - and writes `eval/eval_report.json` / `eval/eval_report.md`. Current results are checked in; re-run to refresh them.
 
 ## Measured performance
 

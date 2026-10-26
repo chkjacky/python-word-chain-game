@@ -17,7 +17,7 @@ function describe(
         message: `Must start with "${lastLetter ?? "?"}"`,
       };
     case "repeated_word":
-      return { tone: "destructive", message: "Already used — game over" };
+      return { tone: "destructive", message: "Already used - game over" };
     case "invalid_length":
       return {
         tone: "warning",
@@ -26,7 +26,7 @@ function describe(
     case "not_a_real_word":
       return {
         tone: "destructive",
-        message: "Not a recognized word — game over",
+        message: "Not a recognized word - game over",
       };
     case "wrong_difficulty":
       return {
@@ -39,10 +39,10 @@ function describe(
     case "network_error":
       return {
         tone: "destructive",
-        message: "Something went wrong — try again",
+        message: "Something went wrong - try again",
       };
     default:
-      return { tone: "destructive", message: "Rejected — game over" };
+      return { tone: "destructive", message: "Rejected - game over" };
   }
 }
 

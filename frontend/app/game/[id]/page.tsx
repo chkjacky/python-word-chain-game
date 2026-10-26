@@ -197,7 +197,7 @@ function GameScreen() {
       setNetworkError(
         err instanceof ApiRequestError
           ? err.message
-          : "Something went wrong — try again.",
+          : "Something went wrong - try again.",
       );
     } finally {
       setSubmitting(false);
@@ -213,7 +213,7 @@ function GameScreen() {
       setNetworkError(
         err instanceof ApiRequestError
           ? err.message
-          : "Something went wrong — try again.",
+          : "Something went wrong - try again.",
       );
     }
   }
@@ -335,7 +335,7 @@ function GameScreen() {
       {devMode && (
         <div className="max-h-48 shrink-0 overflow-y-auto border-t border-border">
           <div className="px-4 py-2 text-xs font-medium text-muted-foreground">
-            Dev trace — round {Math.min(currentRound, TOTAL_ROUNDS)}
+            Dev trace - round {Math.min(currentRound, TOTAL_ROUNDS)}
           </div>
           <DevTracePanel trace={trace} loading={traceLoading} />
         </div>

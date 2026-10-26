@@ -15,7 +15,7 @@ export default function NotFound() {
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
           <p className="text-sm text-muted-foreground">
-            That page — or that game — doesn&apos;t exist.
+            That page - or that game - doesn&apos;t exist.
           </p>
           <Button asChild>
             <Link href="/">Start a new game</Link>

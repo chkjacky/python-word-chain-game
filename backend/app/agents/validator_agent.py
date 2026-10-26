@@ -32,7 +32,7 @@ def validate_word(word: str, last_letter: str, used_words: list[str], difficulty
     else:
         if not exists:
             # dictionaryapi.dev's 404 isn't fully authoritative for common function words (observed: "every" 404s
-            # even though it's an ordinary English word) — double-check against wordfreq before rejecting outright.
+            # even though it's an ordinary English word) - double-check against wordfreq before rejecting outright.
             exists = classify_frequency(word) > 0
 
     if not exists:

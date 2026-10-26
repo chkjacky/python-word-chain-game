@@ -49,7 +49,7 @@ export function DevTracePanel({
           <TableRow key={i}>
             <TableCell className="font-medium">{entry.step}</TableCell>
             <TableCell className="text-muted-foreground">
-              {entry.model ?? "—"}
+              {entry.model ?? "-"}
             </TableCell>
             <TableCell className="text-muted-foreground">
               {entry.tokens_in}/{entry.tokens_out}
@@ -61,7 +61,7 @@ export function DevTracePanel({
               {entry.cost_usd.toFixed(5)}
             </TableCell>
             <TableCell className="text-muted-foreground">
-              {entry.outcome ?? "—"}
+              {entry.outcome ?? "-"}
             </TableCell>
           </TableRow>
         ))}

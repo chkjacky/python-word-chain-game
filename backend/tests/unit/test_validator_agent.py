@@ -52,7 +52,7 @@ def test_validate_word_not_a_real_word(monkeypatch):
 
 
 def test_validate_word_dictionary_404_overridden_by_wordfreq_for_common_word(monkeypatch):
-    # dictionaryapi.dev genuinely 404s on ordinary function words like "every" (observed live) — a 404
+    # dictionaryapi.dev genuinely 404s on ordinary function words like "every" (observed live) - a 404
     # shouldn't be treated as fully authoritative when wordfreq clearly recognizes the word as real.
     monkeypatch.setattr("app.agents.validator_agent.dictionary_client.word_exists", lambda word: False)
 
