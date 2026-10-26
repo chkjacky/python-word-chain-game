@@ -2,7 +2,7 @@
 
 AI opens with a word, the player replies with a word starting from the last letter, scored and adjudicated by a multi-step Google ADK agent.
 
-## Sample Pages
+## 🩻 Sample Pages
 
 ### Homepage
 
@@ -20,7 +20,7 @@ AI opens with a word, the player replies with a word starting from the last lett
 
 ![Leaderboard](https://github.com/chkjacky/python-word-chain-game/blob/main/samples/leaderboard.png?raw=true)
 
-## Game rules
+## 🎲 Game Rules
 
 **Flow.** The AI opens with a word. You reply with a word starting with the last letter of the previous word. This continues for 10 rounds (AI + player = 1 round each).
 
@@ -51,18 +51,18 @@ A _valid but uncreative_ word does **not** end the game - it's just worth fewer 
 
 Example: a 13-letter word that's your 3rd consecutive creative word -> `10 -> +5 = 15 -> ×2 = 30 -> +8 length = 38`. The same word as your 2nd consecutive creative word (no cascade) -> `10 -> +5 = 15 -> +8 length = 23`.
 
-## Current status
+## 🔋 Current Status
 
 **Creativity calibration** currently has low recall (0.18) against the held-out set - see `eval/eval_report.md`. Precision is 1.0 (no false positives), but the judge is conservative and misses genuinely creative words more often than it should.
 
-## Tech stack
+## ⚙️ Tech Stack
 
 - **Backend**: FastAPI, Google ADK (multi-step agent: `ValidatorAgent` -> `CreativityJudgeAgent` -> `MoveGeneratorAgent`), OpenAI `gpt-5-mini` via ADK's `LiteLlm` wrapper
 - **Durable store**: SQLite (file-backed, via SQLAlchemy) - games, turns, trace entries, player stats
 - **Frontend**: Next.js 16 (App Router), Tailwind v4, shadcn/ui
 - **Container**: Docker + Docker Compose
 
-## Project structure
+## 🧬 Project Structure
 
 ```
 backend/
@@ -105,14 +105,14 @@ docker-compose.yml
 README.md
 ```
 
-## Prerequisites
+## ⚠️ Prerequisites
 
 - Docker & Docker Compose
 - An OpenAI API key
 - Python 3.11+ (only needed for local, non-Docker backend dev, or to run the eval/measurement scripts)
 - Node 24.22.3+ (only needed for local, non-Docker frontend dev)
 
-## Quick start (Docker, recommended)
+## 🏃 Quick start (Docker, recommended)
 
 ```bash
 cp backend/.env.example backend/.env
@@ -132,7 +132,7 @@ Then open:
 
 Note on an easy-to-hit Docker gotcha: `docker-compose.yml` mounts `node_modules`/`.next` as **anonymous volumes** for the frontend. If you rebuild the image after changing `frontend/package.json`, the old anonymous volume can still shadow the freshly-installed `node_modules`. If you see `Module not found` errors after a rebuild, run `docker compose down -v && docker compose up --build` to drop the stale volumes too.
 
-## Local dev (optional, without Docker)
+## 🚶 Local Dev (Optional, Without Docker)
 
 **Backend:**
 
@@ -154,7 +154,7 @@ npm run dev
 
 `lib/api-client.ts` reads `NEXT_PUBLIC_API_URL`, falling back to `http://localhost:8000` if unset, so `npm run dev` works standalone against a locally-running backend with zero extra config.
 
-## Environment variables
+## 🏞️ Environment Variables
 
 All backend variables live in `backend/.env.example`, used by both Docker Compose (`env_file`) and local dev:
 
@@ -169,7 +169,7 @@ All backend variables live in `backend/.env.example`, used by both Docker Compos
 
 Frontend: `NEXT_PUBLIC_API_URL`, injected by `docker-compose.yml` directly; defaults to `http://localhost:8000` in code otherwise.
 
-## API
+## 🔗 API
 
 | Endpoint                | Purpose                                                             |
 | ----------------------- | ------------------------------------------------------------------- |
@@ -184,7 +184,7 @@ Frontend: `NEXT_PUBLIC_API_URL`, injected by `docker-compose.yml` directly; defa
 
 Errors use `{"error": {"code", "message"}}` with the matching HTTP status (422/404/503); plain Pydantic validation errors fall back to FastAPI's default `{"detail": [...]}` shape - `frontend/lib/api-client.ts` normalizes both into one `ApiRequestError`.
 
-## Running tests
+## 🧪 Running Tests
 
 ```bash
 cd backend
@@ -194,7 +194,7 @@ cd backend
 
 Runs against `backend/tests/`; `backend/pytest.ini` sets `pythonpath = .` and `asyncio_mode = auto`, so no extra flags are needed. Calling `.venv/bin/pytest` directly works without activating the venv (if it's already activated, plain `pytest` is equivalent). Create the venv first via Local dev above if you haven't.
 
-## Eval harness
+## 🥼 Eval Harness
 
 ```bash
 cd backend
@@ -203,7 +203,7 @@ cd backend
 
 Runs unattended against the four required dimensions - validation accuracy (22 cases), creativity calibration vs. a held-out human-labelled set (22 cases), Hard-mode no-S compliance (30 generations), and adversarial robustness - and writes `eval/eval_report.json` / `eval/eval_report.md`. Current results are checked in; re-run to refresh them.
 
-## Measured performance
+## 📏 Measured Performance
 
 ```bash
 # with the backend running (docker compose up, or uvicorn locally)
