@@ -15,7 +15,9 @@ from app.models.enums import Difficulty
         (" Nectar ", "N", ["nectar"], Difficulty.MEDIUM, False, "repeated_word"),
     ],
 )
-def test_validate_chain_link(word, last_letter, used_words, difficulty, expected_valid, expected_reason):
+def test_validate_chain_link(
+    word, last_letter, used_words, difficulty, expected_valid, expected_reason
+):
     result = validate_chain_link(word, last_letter, used_words, difficulty)
 
     assert result.valid is expected_valid

@@ -21,12 +21,16 @@ def _sample_chain_session():
 
 async def test_run_turn_short_circuits_on_invalid_word(monkeypatch):
     monkeypatch.setattr(
-        orchestrator.validator_agent, "run", Mock(return_value=ValidationResult(valid=False, reason="wrong_letter"))
+        orchestrator.validator_agent,
+        "run",
+        Mock(return_value=ValidationResult(valid=False, reason="wrong_letter")),
     )
     judge_mock = AsyncMock()
     generate_mock = AsyncMock()
     monkeypatch.setattr(orchestrator.creativity_judge_agent, "judge", judge_mock)
-    monkeypatch.setattr(orchestrator.move_generator_agent, "generate_move", generate_mock)
+    monkeypatch.setattr(
+        orchestrator.move_generator_agent, "generate_move", generate_mock
+    )
 
     result = await orchestrator.run_turn(_sample_chain_session(), "radio")
 
@@ -40,12 +44,18 @@ async def test_run_turn_calls_downstream_agents_with_projected_last_letter(monke
     from app.agents.creativity_agent import CreativityJudgement
 
     monkeypatch.setattr(
-        orchestrator.validator_agent, "run", Mock(return_value=ValidationResult(valid=True))
+        orchestrator.validator_agent,
+        "run",
+        Mock(return_value=ValidationResult(valid=True)),
     )
-    judge_mock = AsyncMock(return_value=CreativityJudgement(creative=True, reason="clever"))
+    judge_mock = AsyncMock(
+        return_value=CreativityJudgement(creative=True, reason="clever")
+    )
     generate_mock = AsyncMock(return_value="radio")
     monkeypatch.setattr(orchestrator.creativity_judge_agent, "judge", judge_mock)
-    monkeypatch.setattr(orchestrator.move_generator_agent, "generate_move", generate_mock)
+    monkeypatch.setattr(
+        orchestrator.move_generator_agent, "generate_move", generate_mock
+    )
 
     chain_session = _sample_chain_session()
     result = await orchestrator.run_turn(chain_session, "nectar")

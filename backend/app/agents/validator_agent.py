@@ -10,11 +10,12 @@ from app.trace.trace_logger import trace_logger as default_trace_logger
 from app.utils.dictionary_client import dictionary_client
 from app.utils.frequency_lookup import classify_frequency, is_difficulty_compliant
 
-
 MAX_WORD_INPUT_LENGTH = 50
 
 
-def validate_word(word: str, last_letter: str, used_words: list[str], difficulty: Difficulty) -> ValidationResult:
+def validate_word(
+    word: str, last_letter: str, used_words: list[str], difficulty: Difficulty
+) -> ValidationResult:
     normalized = word.strip()
     if not normalized:
         return ValidationResult(valid=False, reason="empty_input")
@@ -51,7 +52,12 @@ class ValidatorAgent:
 
     def run(self, chain_session, word: str) -> ValidationResult:
         start = time.monotonic()
-        result = validate_word(word, chain_session.last_letter, chain_session.used_words, chain_session.difficulty)
+        result = validate_word(
+            word,
+            chain_session.last_letter,
+            chain_session.used_words,
+            chain_session.difficulty,
+        )
         latency_ms = int((time.monotonic() - start) * 1000)
         record = self.trace_logger.log_step(
             chain_session.game_id,

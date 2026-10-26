@@ -20,7 +20,9 @@ def test_word_exists_returns_false_on_404_without_retry(httpx_mock):
     assert len(httpx_mock.get_requests()) == 1
 
 
-def test_word_exists_raises_tool_unavailable_after_exhausting_retries_on_500(httpx_mock):
+def test_word_exists_raises_tool_unavailable_after_exhausting_retries_on_500(
+    httpx_mock,
+):
     httpx_mock.add_response(status_code=500)
     httpx_mock.add_response(status_code=500)
 

@@ -3,7 +3,9 @@ from app.models.enums import Difficulty
 from app.repositories import stats_repository
 
 
-def record_game_finished(session, username: str, difficulty: Difficulty, final_score: int, completed: bool) -> None:
+def record_game_finished(
+    session, username: str, difficulty: Difficulty, final_score: int, completed: bool
+) -> None:
     existing = stats_repository.get_stats(session, username)
     by_difficulty = dict(existing.by_difficulty) if existing else {}
     tier = by_difficulty.get(difficulty.value, {"games": 0, "wins": 0, "best_score": 0})
@@ -17,14 +19,19 @@ def record_game_finished(session, username: str, difficulty: Difficulty, final_s
     total_score = (existing.total_score if existing else 0) + final_score
     best_score = max(existing.best_score if existing else 0, final_score)
 
-    stats_repository.upsert_player_stats(session, username, games_played, total_score, best_score, by_difficulty)
+    stats_repository.upsert_player_stats(
+        session, username, games_played, total_score, best_score, by_difficulty
+    )
 
 
 def get_stats(session, username: str) -> StatsResponse | None:
     stats = stats_repository.get_stats(session, username)
     if stats is None:
         return None
-    total_games = sum(tier["games"] for tier in stats.by_difficulty.values()) or stats.games_played
+    total_games = (
+        sum(tier["games"] for tier in stats.by_difficulty.values())
+        or stats.games_played
+    )
     total_wins = sum(tier.get("wins", 0) for tier in stats.by_difficulty.values())
     return StatsResponse(
         username=username,
@@ -40,7 +47,11 @@ def get_leaderboard(session, limit: int = 10) -> list[LeaderboardEntry]:
     rows = stats_repository.get_leaderboard(session, limit)
     entries = []
     for row in rows:
-        best_tier = max(row.by_difficulty.items(), key=lambda kv: kv[1]["best_score"], default=(None, None))[0]
+        best_tier = max(
+            row.by_difficulty.items(),
+            key=lambda kv: kv[1]["best_score"],
+            default=(None, None),
+        )[0]
         entries.append(
             LeaderboardEntry(
                 username=row.username,

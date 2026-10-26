@@ -24,7 +24,9 @@ def _pick_next_word(pool, last_letter, used_words, difficulty) -> str | None:
         candidate = candidate.lower()
         if candidate in used_lower:
             continue
-        if not validate_chain_link(candidate, last_letter, used_words, difficulty).valid:
+        if not validate_chain_link(
+            candidate, last_letter, used_words, difficulty
+        ).valid:
             continue
         if not is_difficulty_compliant(candidate, difficulty):
             continue
@@ -33,7 +35,10 @@ def _pick_next_word(pool, last_letter, used_words, difficulty) -> str | None:
 
 
 def play_one_game(client, base_url, username, difficulty, pool) -> dict:
-    start = client.post(f"{base_url}/game/start", json={"username": username, "difficulty": difficulty.value})
+    start = client.post(
+        f"{base_url}/game/start",
+        json={"username": username, "difficulty": difficulty.value},
+    )
     start.raise_for_status()
     start_body = start.json()
     snapshot = start_body["chain_session_snapshot"]
@@ -96,7 +101,11 @@ def main():
         for difficulty in DIFFICULTIES:
             games = [
                 play_one_game(
-                    client, args.base_url, f"measure_{difficulty.value}_{uuid.uuid4().hex[:6]}", difficulty, pool
+                    client,
+                    args.base_url,
+                    f"measure_{difficulty.value}_{uuid.uuid4().hex[:6]}",
+                    difficulty,
+                    pool,
                 )
                 for _ in range(args.games_per_difficulty)
             ]
@@ -104,7 +113,9 @@ def main():
             costs = [g["cost_usd"] for g in games]
             report[difficulty.value] = {
                 "games_played": len(games),
-                "games_completed_full_10_rounds": sum(1 for g in games if g["full_game"]),
+                "games_completed_full_10_rounds": sum(
+                    1 for g in games if g["full_game"]
+                ),
                 "p50_latency_ms": _percentile(all_latencies, 50),
                 "p95_latency_ms": _percentile(all_latencies, 95),
                 "avg_cost_usd_per_game": statistics.mean(costs) if costs else None,

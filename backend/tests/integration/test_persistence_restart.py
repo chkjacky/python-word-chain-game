@@ -15,7 +15,13 @@ from app.models.orm import Base
 def _fake_response(content: str) -> ModelResponse:
     return ModelResponse(
         id="chatcmpl-test",
-        choices=[Choices(index=0, message=Message(role="assistant", content=content), finish_reason="stop")],
+        choices=[
+            Choices(
+                index=0,
+                message=Message(role="assistant", content=content),
+                finish_reason="stop",
+            )
+        ],
         model="gpt-5-mini",
     )
 
@@ -25,7 +31,9 @@ def _word_response(word: str) -> ModelResponse:
 
 
 def _creativity_response(creative: bool, reason: str) -> ModelResponse:
-    return _fake_response(f'{{"creative": {"true" if creative else "false"}, "reason": "{reason}"}}')
+    return _fake_response(
+        f'{{"creative": {"true" if creative else "false"}, "reason": "{reason}"}}'
+    )
 
 
 def _session_factory(engine):
@@ -40,7 +48,9 @@ def _session_factory(engine):
 
 
 def test_game_state_survives_a_simulated_restart(tmp_path, monkeypatch):
-    monkeypatch.setattr("app.agents.validator_agent.dictionary_client.word_exists", lambda word: True)
+    monkeypatch.setattr(
+        "app.agents.validator_agent.dictionary_client.word_exists", lambda word: True
+    )
     db_path = tmp_path / "durability_test.db"
 
     engine1 = create_engine(f"sqlite:///{db_path}")

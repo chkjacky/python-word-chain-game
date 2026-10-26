@@ -12,7 +12,13 @@ from app.trace.trace_logger import TraceLogger
 def _fake_response(content: str) -> ModelResponse:
     return ModelResponse(
         id="chatcmpl-test",
-        choices=[Choices(index=0, message=Message(role="assistant", content=content), finish_reason="stop")],
+        choices=[
+            Choices(
+                index=0,
+                message=Message(role="assistant", content=content),
+                finish_reason="stop",
+            )
+        ],
         model="gpt-5-mini",
     )
 
@@ -31,7 +37,9 @@ def _sample_chain_session():
 
 
 async def test_judge_returns_result_on_first_valid_response(tmp_path):
-    agent = CreativityJudgeAgent(trace_logger=TraceLogger(str(tmp_path / "traces.jsonl")))
+    agent = CreativityJudgeAgent(
+        trace_logger=TraceLogger(str(tmp_path / "traces.jsonl"))
+    )
     agent._agent.model.llm_client.acompletion = AsyncMock(
         return_value=_fake_response('{"creative": true, "reason": "clever pun"}')
     )
@@ -43,7 +51,9 @@ async def test_judge_returns_result_on_first_valid_response(tmp_path):
 
 
 async def test_judge_retries_once_on_malformed_json_then_succeeds(tmp_path):
-    agent = CreativityJudgeAgent(trace_logger=TraceLogger(str(tmp_path / "traces.jsonl")))
+    agent = CreativityJudgeAgent(
+        trace_logger=TraceLogger(str(tmp_path / "traces.jsonl"))
+    )
     agent._agent.model.llm_client.acompletion = AsyncMock(
         side_effect=[
             _fake_response("not json at all"),
@@ -58,8 +68,12 @@ async def test_judge_retries_once_on_malformed_json_then_succeeds(tmp_path):
     assert agent._agent.model.llm_client.acompletion.call_count == 2
 
 
-async def test_judge_falls_back_deterministically_after_two_malformed_responses(tmp_path):
-    agent = CreativityJudgeAgent(trace_logger=TraceLogger(str(tmp_path / "traces.jsonl")))
+async def test_judge_falls_back_deterministically_after_two_malformed_responses(
+    tmp_path,
+):
+    agent = CreativityJudgeAgent(
+        trace_logger=TraceLogger(str(tmp_path / "traces.jsonl"))
+    )
     agent._agent.model.llm_client.acompletion = AsyncMock(
         side_effect=[_fake_response("not json"), _fake_response("still not json")]
     )
@@ -70,8 +84,12 @@ async def test_judge_falls_back_deterministically_after_two_malformed_responses(
     assert "fallback" in result.reason
 
 
-async def test_judge_falls_back_immediately_on_tool_outage_without_second_attempt(tmp_path):
-    agent = CreativityJudgeAgent(trace_logger=TraceLogger(str(tmp_path / "traces.jsonl")))
+async def test_judge_falls_back_immediately_on_tool_outage_without_second_attempt(
+    tmp_path,
+):
+    agent = CreativityJudgeAgent(
+        trace_logger=TraceLogger(str(tmp_path / "traces.jsonl"))
+    )
     agent._agent.model.llm_client.acompletion = AsyncMock(
         side_effect=litellm.InternalServerError(
             message="down", model="gpt-5-mini", llm_provider="openai"

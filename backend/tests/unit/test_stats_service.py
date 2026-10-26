@@ -16,7 +16,9 @@ def test_record_game_finished_creates_new_row(tmp_path):
     engine = _make_engine(tmp_path)
 
     session = Session(engine)
-    stats_service.record_game_finished(session, "jacky", Difficulty.MEDIUM, 30, completed=True)
+    stats_service.record_game_finished(
+        session, "jacky", Difficulty.MEDIUM, 30, completed=True
+    )
     session.close()
 
     session = Session(engine)
@@ -32,11 +34,15 @@ def test_record_game_finished_accumulates_and_tracks_wins(tmp_path):
     engine = _make_engine(tmp_path)
 
     session = Session(engine)
-    stats_service.record_game_finished(session, "jacky", Difficulty.MEDIUM, 30, completed=True)
+    stats_service.record_game_finished(
+        session, "jacky", Difficulty.MEDIUM, 30, completed=True
+    )
     session.close()
 
     session = Session(engine)
-    stats_service.record_game_finished(session, "jacky", Difficulty.MEDIUM, 10, completed=False)
+    stats_service.record_game_finished(
+        session, "jacky", Difficulty.MEDIUM, 10, completed=False
+    )
     session.close()
 
     session = Session(engine)
@@ -63,9 +69,15 @@ def test_get_leaderboard_derives_difficulty_of_best_score(tmp_path):
     engine = _make_engine(tmp_path)
 
     session = Session(engine)
-    stats_service.record_game_finished(session, "jacky", Difficulty.EASY, 15, completed=True)
-    stats_service.record_game_finished(session, "jacky", Difficulty.MEDIUM, 40, completed=True)
-    stats_service.record_game_finished(session, "alice", Difficulty.HARD, 25, completed=False)
+    stats_service.record_game_finished(
+        session, "jacky", Difficulty.EASY, 15, completed=True
+    )
+    stats_service.record_game_finished(
+        session, "jacky", Difficulty.MEDIUM, 40, completed=True
+    )
+    stats_service.record_game_finished(
+        session, "alice", Difficulty.HARD, 25, completed=False
+    )
     session.close()
 
     session = Session(engine)

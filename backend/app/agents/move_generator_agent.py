@@ -3,7 +3,12 @@ import time
 from pydantic import BaseModel, ValidationError
 from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_fixed
 
-from app.agents.adk_runtime import RETRYABLE_LLM_ERRORS, build_llm_agent, build_runner, run_once
+from app.agents.adk_runtime import (
+    RETRYABLE_LLM_ERRORS,
+    build_llm_agent,
+    build_runner,
+    run_once,
+)
 from app.core.config import settings
 from app.core.errors import ToolUnavailableError
 from app.domain.chain_rules import LENGTH_BANDS, validate_chain_link
@@ -34,7 +39,9 @@ class MoveGeneration(BaseModel):
 class MoveGeneratorAgent:
     def __init__(self, trace_logger=default_trace_logger):
         self.trace_logger = trace_logger
-        self._agent = build_llm_agent("move_generator", MOVE_GENERATOR_INSTRUCTION, MoveGeneration)
+        self._agent = build_llm_agent(
+            "move_generator", MOVE_GENERATOR_INSTRUCTION, MoveGeneration
+        )
         self._runner, self._session_service = build_runner(self._agent)
 
     @retry(
@@ -46,7 +53,9 @@ class MoveGeneratorAgent:
     async def _call_llm(self, prompt: str) -> tuple[str, int, int]:
         return await run_once(self._runner, self._session_service, prompt)
 
-    async def _attempt_word(self, chain_session: ChainSession, no_s_required: bool) -> tuple[str | None, int, int]:
+    async def _attempt_word(
+        self, chain_session: ChainSession, no_s_required: bool
+    ) -> tuple[str | None, int, int]:
         min_len, max_len = LENGTH_BANDS[chain_session.difficulty]
         prompt = MOVE_GENERATOR_PROMPT_TEMPLATE.format(
             last_letter=chain_session.last_letter,
@@ -64,7 +73,10 @@ class MoveGeneratorAgent:
 
         candidate = move.word.strip().lower()
         result = validate_chain_link(
-            candidate, chain_session.last_letter, chain_session.used_words, chain_session.difficulty
+            candidate,
+            chain_session.last_letter,
+            chain_session.used_words,
+            chain_session.difficulty,
         )
         if not result.valid:
             return None, tokens_in, tokens_out
@@ -84,7 +96,9 @@ class MoveGeneratorAgent:
         for _ in range(max_attempts):
             attempts += 1
             try:
-                candidate, tokens_in, tokens_out = await self._attempt_word(chain_session, no_s_required)
+                candidate, tokens_in, tokens_out = await self._attempt_word(
+                    chain_session, no_s_required
+                )
             except RETRYABLE_LLM_ERRORS:
                 tool_outage = True
                 break
@@ -112,7 +126,9 @@ class MoveGeneratorAgent:
             model=settings.OPENAI_MODEL,
             tokens_in=total_tokens_in,
             tokens_out=total_tokens_out,
-            cost_usd=estimate_cost_usd(settings.OPENAI_MODEL, total_tokens_in, total_tokens_out),
+            cost_usd=estimate_cost_usd(
+                settings.OPENAI_MODEL, total_tokens_in, total_tokens_out
+            ),
             latency_ms=latency_ms,
             outcome=outcome,
             retries=attempts - 1,
@@ -123,13 +139,18 @@ class MoveGeneratorAgent:
     def _fallback_word(self, chain_session: ChainSession, no_s_required: bool) -> str:
         used = {w.lower() for w in chain_session.used_words}
         candidates = (
-            load_wordlist(Difficulty.EASY) + load_wordlist(Difficulty.MEDIUM) + load_wordlist(Difficulty.HARD)
+            load_wordlist(Difficulty.EASY)
+            + load_wordlist(Difficulty.MEDIUM)
+            + load_wordlist(Difficulty.HARD)
         )
         for candidate in candidates:
             if candidate.lower() in used:
                 continue
             result = validate_chain_link(
-                candidate, chain_session.last_letter, chain_session.used_words, chain_session.difficulty
+                candidate,
+                chain_session.last_letter,
+                chain_session.used_words,
+                chain_session.difficulty,
             )
             if not result.valid:
                 continue

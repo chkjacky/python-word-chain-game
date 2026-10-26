@@ -22,7 +22,10 @@ async def run_turn(chain_session: ChainSession, word: str) -> TurnAgentResult:
         return TurnAgentResult(valid=False, reason=validation.reason)
 
     projected_session = chain_session.model_copy(
-        update={"last_letter": word[-1], "used_words": chain_session.used_words + [word]}
+        update={
+            "last_letter": word[-1],
+            "used_words": chain_session.used_words + [word],
+        }
     )
 
     judgement, ai_word = await asyncio.gather(

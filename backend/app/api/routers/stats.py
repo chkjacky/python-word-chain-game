@@ -14,7 +14,12 @@ def get_stats_route(username: str, db: Session = Depends(get_db)) -> StatsRespon
     if stats is not None:
         return stats
     return StatsResponse(
-        username=username, games_played=0, avg_score=0.0, best_score=0, win_rate=0.0, by_difficulty={}
+        username=username,
+        games_played=0,
+        avg_score=0.0,
+        best_score=0,
+        win_rate=0.0,
+        by_difficulty={},
     )
 
 

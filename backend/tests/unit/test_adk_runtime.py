@@ -14,14 +14,22 @@ class _EchoSchema(BaseModel):
 def _fake_response(content: str) -> ModelResponse:
     return ModelResponse(
         id="chatcmpl-test",
-        choices=[Choices(index=0, message=Message(role="assistant", content=content), finish_reason="stop")],
+        choices=[
+            Choices(
+                index=0,
+                message=Message(role="assistant", content=content),
+                finish_reason="stop",
+            )
+        ],
         model="gpt-5-mini",
     )
 
 
 async def test_run_once_returns_final_text_from_mocked_llm():
     agent = build_llm_agent("echo_test", "echo the input as json", _EchoSchema)
-    agent.model.llm_client.acompletion = AsyncMock(return_value=_fake_response('{"x": 1}'))
+    agent.model.llm_client.acompletion = AsyncMock(
+        return_value=_fake_response('{"x": 1}')
+    )
 
     runner, session_service = build_runner(agent)
     text, tokens_in, tokens_out = await run_once(runner, session_service, "hello")

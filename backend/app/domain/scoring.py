@@ -8,7 +8,9 @@ class ScoreBreakdown(BaseModel):
     length_bonus: int
 
 
-def score_turn(word: str, is_creative: bool, cascade_streak: int) -> tuple[int, ScoreBreakdown]:
+def score_turn(
+    word: str, is_creative: bool, cascade_streak: int
+) -> tuple[int, ScoreBreakdown]:
     base = 10
     creative_bonus = 5 if is_creative else 0
     subtotal = base + creative_bonus

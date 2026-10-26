@@ -25,7 +25,11 @@ def test_game_orm_round_trip(tmp_path):
                 last_letter="n",
                 cascade_streak=2,
                 game_status="in_progress",
-                retry_counters={"no_s_retry": 0, "json_parse_retry": 1, "tool_timeout_retry": 0},
+                retry_counters={
+                    "no_s_retry": 0,
+                    "json_parse_retry": 1,
+                    "tool_timeout_retry": 0,
+                },
             )
         )
         session.commit()
@@ -35,7 +39,11 @@ def test_game_orm_round_trip(tmp_path):
         assert game is not None
         assert game.username == "jacky"
         assert game.used_words == ["dragon", "nectar"]
-        assert game.retry_counters == {"no_s_retry": 0, "json_parse_retry": 1, "tool_timeout_retry": 0}
+        assert game.retry_counters == {
+            "no_s_retry": 0,
+            "json_parse_retry": 1,
+            "tool_timeout_retry": 0,
+        }
         assert game.created_at is not None
 
 
@@ -64,7 +72,12 @@ def test_turn_orm_round_trip(tmp_path):
                 player_word="nectar",
                 ai_word="radio",
                 score_delta=23,
-                score_breakdown={"base": 10, "creative": 5, "cascade": False, "length_bonus": 8},
+                score_breakdown={
+                    "base": 10,
+                    "creative": 5,
+                    "cascade": False,
+                    "length_bonus": 8,
+                },
             )
         )
         session.commit()

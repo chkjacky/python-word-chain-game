@@ -61,10 +61,14 @@ def test_invalid_word_error_response_shape():
 def test_game_not_found_error_response_shape():
     response = client.get("/raise-game-not-found")
     assert response.status_code == 404
-    assert response.json() == {"error": {"code": "game_not_found", "message": "no such game"}}
+    assert response.json() == {
+        "error": {"code": "game_not_found", "message": "no such game"}
+    }
 
 
 def test_tool_unavailable_error_response_shape():
     response = client.get("/raise-tool-unavailable")
     assert response.status_code == 503
-    assert response.json() == {"error": {"code": "tool_unavailable", "message": "dictionary down"}}
+    assert response.json() == {
+        "error": {"code": "tool_unavailable", "message": "dictionary down"}
+    }

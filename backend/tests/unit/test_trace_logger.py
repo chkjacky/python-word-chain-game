@@ -24,7 +24,14 @@ def test_log_step_writes_one_well_formed_jsonl_line(tmp_path):
     parsed = json.loads(lines[0])
     assert parsed == record
 
-    required_keys = {"step", "latency_ms", "tokens_in", "tokens_out", "cost_usd", "outcome"}
+    required_keys = {
+        "step",
+        "latency_ms",
+        "tokens_in",
+        "tokens_out",
+        "cost_usd",
+        "outcome",
+    }
     assert required_keys.issubset(parsed.keys())
 
     assert parsed["game_id"] == "g1"
@@ -55,7 +62,9 @@ def test_log_step_appends_without_overwriting(tmp_path):
     logger = TraceLogger(str(log_path))
 
     logger.log_step(game_id="g1", round=1, step="validate_word", outcome="valid")
-    logger.log_step(game_id="g1", round=1, step="judge_creativity", outcome="creative=true")
+    logger.log_step(
+        game_id="g1", round=1, step="judge_creativity", outcome="creative=true"
+    )
 
     lines = log_path.read_text().splitlines()
     assert len(lines) == 2

@@ -28,7 +28,7 @@ class Settings(BaseSettings):
         prefix = "sqlite:///"
         if not v.startswith(prefix):
             return v
-        raw_path = Path(v[len(prefix):])
+        raw_path = Path(v[len(prefix) :])
         if raw_path.is_absolute():
             return v
         return prefix + str(BACKEND_DIR / raw_path)

@@ -8,7 +8,9 @@ from app.trace.trace_logger import TraceLogger
 
 
 def test_validate_word_valid_real_word(monkeypatch):
-    monkeypatch.setattr("app.agents.validator_agent.dictionary_client.word_exists", lambda word: True)
+    monkeypatch.setattr(
+        "app.agents.validator_agent.dictionary_client.word_exists", lambda word: True
+    )
 
     result = validate_word("nectar", "n", [], Difficulty.MEDIUM)
 
@@ -16,7 +18,9 @@ def test_validate_word_valid_real_word(monkeypatch):
 
 
 def test_validate_word_wrong_letter(monkeypatch):
-    monkeypatch.setattr("app.agents.validator_agent.dictionary_client.word_exists", lambda word: True)
+    monkeypatch.setattr(
+        "app.agents.validator_agent.dictionary_client.word_exists", lambda word: True
+    )
 
     result = validate_word("radio", "x", [], Difficulty.MEDIUM)
 
@@ -25,7 +29,9 @@ def test_validate_word_wrong_letter(monkeypatch):
 
 
 def test_validate_word_repeated(monkeypatch):
-    monkeypatch.setattr("app.agents.validator_agent.dictionary_client.word_exists", lambda word: True)
+    monkeypatch.setattr(
+        "app.agents.validator_agent.dictionary_client.word_exists", lambda word: True
+    )
 
     result = validate_word("nectar", "n", ["nectar"], Difficulty.MEDIUM)
 
@@ -34,7 +40,9 @@ def test_validate_word_repeated(monkeypatch):
 
 
 def test_validate_word_wrong_length(monkeypatch):
-    monkeypatch.setattr("app.agents.validator_agent.dictionary_client.word_exists", lambda word: True)
+    monkeypatch.setattr(
+        "app.agents.validator_agent.dictionary_client.word_exists", lambda word: True
+    )
 
     result = validate_word("ox", "o", [], Difficulty.EASY)
 
@@ -43,7 +51,9 @@ def test_validate_word_wrong_length(monkeypatch):
 
 
 def test_validate_word_not_a_real_word(monkeypatch):
-    monkeypatch.setattr("app.agents.validator_agent.dictionary_client.word_exists", lambda word: False)
+    monkeypatch.setattr(
+        "app.agents.validator_agent.dictionary_client.word_exists", lambda word: False
+    )
 
     result = validate_word("zzzqx", "z", [], Difficulty.EASY)
 
@@ -51,10 +61,14 @@ def test_validate_word_not_a_real_word(monkeypatch):
     assert result.reason == "not_a_real_word"
 
 
-def test_validate_word_dictionary_404_overridden_by_wordfreq_for_common_word(monkeypatch):
+def test_validate_word_dictionary_404_overridden_by_wordfreq_for_common_word(
+    monkeypatch,
+):
     # dictionaryapi.dev genuinely 404s on ordinary function words like "every" (observed live) - a 404
     # shouldn't be treated as fully authoritative when wordfreq clearly recognizes the word as real.
-    monkeypatch.setattr("app.agents.validator_agent.dictionary_client.word_exists", lambda word: False)
+    monkeypatch.setattr(
+        "app.agents.validator_agent.dictionary_client.word_exists", lambda word: False
+    )
 
     result = validate_word("every", "e", [], Difficulty.EASY)
 
@@ -62,7 +76,9 @@ def test_validate_word_dictionary_404_overridden_by_wordfreq_for_common_word(mon
 
 
 def test_validate_word_wrong_difficulty(monkeypatch):
-    monkeypatch.setattr("app.agents.validator_agent.dictionary_client.word_exists", lambda word: True)
+    monkeypatch.setattr(
+        "app.agents.validator_agent.dictionary_client.word_exists", lambda word: True
+    )
 
     # "beautiful" fits HARD's 8-12 length band but is too common (high zipf) for HARD's uncommon-word requirement
     result = validate_word("beautiful", "b", [], Difficulty.HARD)
@@ -75,7 +91,9 @@ def test_validate_word_degrades_to_wordfreq_when_dictionary_tool_down(monkeypatc
     def _raise(word):
         raise ToolUnavailableError("dictionary down")
 
-    monkeypatch.setattr("app.agents.validator_agent.dictionary_client.word_exists", _raise)
+    monkeypatch.setattr(
+        "app.agents.validator_agent.dictionary_client.word_exists", _raise
+    )
 
     result = validate_word("house", "h", [], Difficulty.EASY)
 
@@ -86,7 +104,9 @@ def test_validate_word_gibberish_rejected_when_dictionary_tool_down(monkeypatch)
     def _raise(word):
         raise ToolUnavailableError("dictionary down")
 
-    monkeypatch.setattr("app.agents.validator_agent.dictionary_client.word_exists", _raise)
+    monkeypatch.setattr(
+        "app.agents.validator_agent.dictionary_client.word_exists", _raise
+    )
 
     result = validate_word("zzzqx", "z", [], Difficulty.EASY)
 
@@ -110,7 +130,9 @@ def test_validate_word_overlong_input_rejected_as_invalid_format():
 
 
 def test_validator_agent_run_logs_a_trace_line(monkeypatch, tmp_path):
-    monkeypatch.setattr("app.agents.validator_agent.dictionary_client.word_exists", lambda word: True)
+    monkeypatch.setattr(
+        "app.agents.validator_agent.dictionary_client.word_exists", lambda word: True
+    )
 
     log_path = tmp_path / "traces.jsonl"
     agent = ValidatorAgent(trace_logger=TraceLogger(str(log_path)))

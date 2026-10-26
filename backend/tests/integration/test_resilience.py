@@ -18,7 +18,13 @@ from app.models.orm import Base
 def _fake_response(content: str) -> ModelResponse:
     return ModelResponse(
         id="chatcmpl-test",
-        choices=[Choices(index=0, message=Message(role="assistant", content=content), finish_reason="stop")],
+        choices=[
+            Choices(
+                index=0,
+                message=Message(role="assistant", content=content),
+                finish_reason="stop",
+            )
+        ],
         model="gpt-5-mini",
     )
 
@@ -28,7 +34,9 @@ def _word_response(word: str) -> ModelResponse:
 
 
 def _creativity_response(creative: bool, reason: str) -> ModelResponse:
-    return _fake_response(f'{{"creative": {"true" if creative else "false"}, "reason": "{reason}"}}')
+    return _fake_response(
+        f'{{"creative": {"true" if creative else "false"}, "reason": "{reason}"}}'
+    )
 
 
 @pytest.fixture
@@ -51,25 +59,33 @@ def client(tmp_path):
     app.dependency_overrides.clear()
 
 
-def _start_game(client, monkeypatch, username="jacky", difficulty="medium", opening_word="dragon"):
+def _start_game(
+    client, monkeypatch, username="jacky", difficulty="medium", opening_word="dragon"
+):
     monkeypatch.setattr(
         move_generator_agent._agent.model.llm_client,
         "acompletion",
         AsyncMock(return_value=_word_response(opening_word)),
     )
-    response = client.post("/game/start", json={"username": username, "difficulty": difficulty})
+    response = client.post(
+        "/game/start", json={"username": username, "difficulty": difficulty}
+    )
     assert response.status_code == 200
     return response.json()["game_id"]
 
 
 def test_malformed_creativity_json_falls_back_gracefully(client, monkeypatch):
-    monkeypatch.setattr("app.agents.validator_agent.dictionary_client.word_exists", lambda word: True)
+    monkeypatch.setattr(
+        "app.agents.validator_agent.dictionary_client.word_exists", lambda word: True
+    )
     game_id = _start_game(client, monkeypatch)
 
     monkeypatch.setattr(
         creativity_judge_agent._agent.model.llm_client,
         "acompletion",
-        AsyncMock(side_effect=[_fake_response("not json"), _fake_response("still not json")]),
+        AsyncMock(
+            side_effect=[_fake_response("not json"), _fake_response("still not json")]
+        ),
     )
     monkeypatch.setattr(
         move_generator_agent._agent.model.llm_client,
@@ -86,7 +102,9 @@ def test_malformed_creativity_json_falls_back_gracefully(client, monkeypatch):
 
 
 def test_malformed_move_generator_json_falls_back_to_wordlist(client, monkeypatch):
-    monkeypatch.setattr("app.agents.validator_agent.dictionary_client.word_exists", lambda word: True)
+    monkeypatch.setattr(
+        "app.agents.validator_agent.dictionary_client.word_exists", lambda word: True
+    )
     game_id = _start_game(client, monkeypatch)
 
     monkeypatch.setattr(
@@ -109,10 +127,14 @@ def test_malformed_move_generator_json_falls_back_to_wordlist(client, monkeypatc
 
 
 def test_creativity_rate_limit_then_success(client, monkeypatch):
-    monkeypatch.setattr("app.agents.validator_agent.dictionary_client.word_exists", lambda word: True)
+    monkeypatch.setattr(
+        "app.agents.validator_agent.dictionary_client.word_exists", lambda word: True
+    )
     game_id = _start_game(client, monkeypatch)
 
-    rate_limit_error = litellm.RateLimitError(message="rate limited", model="gpt-5-mini", llm_provider="openai")
+    rate_limit_error = litellm.RateLimitError(
+        message="rate limited", model="gpt-5-mini", llm_provider="openai"
+    )
     monkeypatch.setattr(
         creativity_judge_agent._agent.model.llm_client,
         "acompletion",
@@ -133,10 +155,14 @@ def test_creativity_rate_limit_then_success(client, monkeypatch):
 
 
 def test_creativity_persistent_rate_limit_falls_back(client, monkeypatch):
-    monkeypatch.setattr("app.agents.validator_agent.dictionary_client.word_exists", lambda word: True)
+    monkeypatch.setattr(
+        "app.agents.validator_agent.dictionary_client.word_exists", lambda word: True
+    )
     game_id = _start_game(client, monkeypatch)
 
-    rate_limit_error = litellm.RateLimitError(message="rate limited", model="gpt-5-mini", llm_provider="openai")
+    rate_limit_error = litellm.RateLimitError(
+        message="rate limited", model="gpt-5-mini", llm_provider="openai"
+    )
     monkeypatch.setattr(
         creativity_judge_agent._agent.model.llm_client,
         "acompletion",
@@ -157,10 +183,14 @@ def test_creativity_persistent_rate_limit_falls_back(client, monkeypatch):
 
 
 def test_move_generator_persistent_5xx_falls_back_to_wordlist(client, monkeypatch):
-    monkeypatch.setattr("app.agents.validator_agent.dictionary_client.word_exists", lambda word: True)
+    monkeypatch.setattr(
+        "app.agents.validator_agent.dictionary_client.word_exists", lambda word: True
+    )
     game_id = _start_game(client, monkeypatch)
 
-    server_error = litellm.InternalServerError(message="down", model="gpt-5-mini", llm_provider="openai")
+    server_error = litellm.InternalServerError(
+        message="down", model="gpt-5-mini", llm_provider="openai"
+    )
     monkeypatch.setattr(
         creativity_judge_agent._agent.model.llm_client,
         "acompletion",
@@ -186,7 +216,9 @@ def test_dictionary_outage_degrades_gracefully(client, monkeypatch):
     def _raise(word):
         raise ToolUnavailableError("dictionary down")
 
-    monkeypatch.setattr("app.agents.validator_agent.dictionary_client.word_exists", _raise)
+    monkeypatch.setattr(
+        "app.agents.validator_agent.dictionary_client.word_exists", _raise
+    )
     monkeypatch.setattr(
         creativity_judge_agent._agent.model.llm_client,
         "acompletion",
@@ -205,7 +237,9 @@ def test_dictionary_outage_degrades_gracefully(client, monkeypatch):
 
 
 def test_move_generator_total_exhaustion_returns_503_not_500(client, monkeypatch):
-    monkeypatch.setattr("app.agents.validator_agent.dictionary_client.word_exists", lambda word: True)
+    monkeypatch.setattr(
+        "app.agents.validator_agent.dictionary_client.word_exists", lambda word: True
+    )
     game_id = _start_game(client, monkeypatch)
 
     monkeypatch.setattr(
@@ -218,7 +252,9 @@ def test_move_generator_total_exhaustion_returns_503_not_500(client, monkeypatch
         "acompletion",
         AsyncMock(return_value=_word_response("zzzznotaword")),
     )
-    monkeypatch.setattr("app.agents.move_generator_agent.load_wordlist", lambda difficulty: [])
+    monkeypatch.setattr(
+        "app.agents.move_generator_agent.load_wordlist", lambda difficulty: []
+    )
 
     response = client.post(f"/game/{game_id}/turn", json={"word": "nectar"})
 
@@ -236,7 +272,9 @@ def test_move_generator_total_exhaustion_returns_503_not_500(client, monkeypatch
         ("a" * 200, "invalid_format"),
     ],
 )
-def test_adversarial_inputs_rejected_without_crashing(client, monkeypatch, word, expected_reason):
+def test_adversarial_inputs_rejected_without_crashing(
+    client, monkeypatch, word, expected_reason
+):
     game_id = _start_game(client, monkeypatch)
 
     response = client.post(f"/game/{game_id}/turn", json={"word": word})

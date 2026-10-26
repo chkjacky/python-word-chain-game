@@ -19,7 +19,11 @@ def _make_engine(tmp_path):
 
 async def test_start_game_generates_opening_word_and_persists(tmp_path, monkeypatch):
     engine = _make_engine(tmp_path)
-    monkeypatch.setattr(game_service.move_generator_agent, "generate_move", AsyncMock(return_value="dragon"))
+    monkeypatch.setattr(
+        game_service.move_generator_agent,
+        "generate_move",
+        AsyncMock(return_value="dragon"),
+    )
 
     session = Session(engine)
     chain_session = await game_service.start_game(session, "jacky", Difficulty.MEDIUM)
@@ -39,11 +43,19 @@ async def test_start_game_generates_opening_word_and_persists(tmp_path, monkeypa
 
 async def test_play_turn_happy_path_updates_and_persists(tmp_path, monkeypatch):
     engine = _make_engine(tmp_path)
-    monkeypatch.setattr(game_service.move_generator_agent, "generate_move", AsyncMock(return_value="dragon"))
+    monkeypatch.setattr(
+        game_service.move_generator_agent,
+        "generate_move",
+        AsyncMock(return_value="dragon"),
+    )
     monkeypatch.setattr(
         game_service,
         "run_turn",
-        AsyncMock(return_value=TurnAgentResult(valid=True, creative=True, creativity_reason="clever", ai_word="radio")),
+        AsyncMock(
+            return_value=TurnAgentResult(
+                valid=True, creative=True, creativity_reason="clever", ai_word="radio"
+            )
+        ),
     )
 
     session = Session(engine)
@@ -72,9 +84,15 @@ async def test_play_turn_happy_path_updates_and_persists(tmp_path, monkeypatch):
 
 async def test_play_turn_invalid_word_ends_game(tmp_path, monkeypatch):
     engine = _make_engine(tmp_path)
-    monkeypatch.setattr(game_service.move_generator_agent, "generate_move", AsyncMock(return_value="dragon"))
     monkeypatch.setattr(
-        game_service, "run_turn", AsyncMock(return_value=TurnAgentResult(valid=False, reason="wrong_letter"))
+        game_service.move_generator_agent,
+        "generate_move",
+        AsyncMock(return_value="dragon"),
+    )
+    monkeypatch.setattr(
+        game_service,
+        "run_turn",
+        AsyncMock(return_value=TurnAgentResult(valid=False, reason="wrong_letter")),
     )
 
     session = Session(engine)
@@ -98,13 +116,21 @@ async def test_play_turn_invalid_word_ends_game(tmp_path, monkeypatch):
     assert stats.by_difficulty["medium"]["wins"] == 0
 
 
-async def test_play_turn_completing_round_10_ends_game_and_records_win(tmp_path, monkeypatch):
+async def test_play_turn_completing_round_10_ends_game_and_records_win(
+    tmp_path, monkeypatch
+):
     engine = _make_engine(tmp_path)
-    monkeypatch.setattr(game_service.move_generator_agent, "generate_move", AsyncMock(return_value="dragon"))
+    monkeypatch.setattr(
+        game_service.move_generator_agent,
+        "generate_move",
+        AsyncMock(return_value="dragon"),
+    )
     monkeypatch.setattr(
         game_service,
         "run_turn",
-        AsyncMock(return_value=TurnAgentResult(valid=True, creative=False, ai_word="radio")),
+        AsyncMock(
+            return_value=TurnAgentResult(valid=True, creative=False, ai_word="radio")
+        ),
     )
 
     session = Session(engine)
@@ -141,7 +167,11 @@ async def test_play_turn_unknown_game_raises(tmp_path):
 
 async def test_play_turn_on_already_ended_game_short_circuits(tmp_path, monkeypatch):
     engine = _make_engine(tmp_path)
-    monkeypatch.setattr(game_service.move_generator_agent, "generate_move", AsyncMock(return_value="dragon"))
+    monkeypatch.setattr(
+        game_service.move_generator_agent,
+        "generate_move",
+        AsyncMock(return_value="dragon"),
+    )
     run_turn_mock = AsyncMock()
     monkeypatch.setattr(game_service, "run_turn", run_turn_mock)
 
@@ -162,7 +192,11 @@ async def test_play_turn_on_already_ended_game_short_circuits(tmp_path, monkeypa
 
 async def test_quit_game_sets_status_and_records_stats(tmp_path, monkeypatch):
     engine = _make_engine(tmp_path)
-    monkeypatch.setattr(game_service.move_generator_agent, "generate_move", AsyncMock(return_value="dragon"))
+    monkeypatch.setattr(
+        game_service.move_generator_agent,
+        "generate_move",
+        AsyncMock(return_value="dragon"),
+    )
 
     session = Session(engine)
     chain_session = await game_service.start_game(session, "jacky", Difficulty.MEDIUM)
@@ -184,9 +218,15 @@ async def test_quit_game_sets_status_and_records_stats(tmp_path, monkeypatch):
     assert stats.by_difficulty["medium"]["wins"] == 0
 
 
-async def test_quit_game_is_idempotent_and_does_not_double_count_stats(tmp_path, monkeypatch):
+async def test_quit_game_is_idempotent_and_does_not_double_count_stats(
+    tmp_path, monkeypatch
+):
     engine = _make_engine(tmp_path)
-    monkeypatch.setattr(game_service.move_generator_agent, "generate_move", AsyncMock(return_value="dragon"))
+    monkeypatch.setattr(
+        game_service.move_generator_agent,
+        "generate_move",
+        AsyncMock(return_value="dragon"),
+    )
 
     session = Session(engine)
     chain_session = await game_service.start_game(session, "jacky", Difficulty.MEDIUM)

@@ -16,7 +16,13 @@ from app.models.orm import Base
 def _fake_response(content: str) -> ModelResponse:
     return ModelResponse(
         id="chatcmpl-test",
-        choices=[Choices(index=0, message=Message(role="assistant", content=content), finish_reason="stop")],
+        choices=[
+            Choices(
+                index=0,
+                message=Message(role="assistant", content=content),
+                finish_reason="stop",
+            )
+        ],
         model="gpt-5-mini",
     )
 
@@ -26,7 +32,9 @@ def _word_response(word: str) -> ModelResponse:
 
 
 def _creativity_response(creative: bool, reason: str) -> ModelResponse:
-    return _fake_response(f'{{"creative": {"true" if creative else "false"}, "reason": "{reason}"}}')
+    return _fake_response(
+        f'{{"creative": {"true" if creative else "false"}, "reason": "{reason}"}}'
+    )
 
 
 @pytest.fixture
@@ -50,11 +58,19 @@ def client(tmp_path):
 
 
 def test_happy_path_start_turns_trace_quit(client, monkeypatch):
-    monkeypatch.setattr("app.agents.validator_agent.dictionary_client.word_exists", lambda word: True)
+    monkeypatch.setattr(
+        "app.agents.validator_agent.dictionary_client.word_exists", lambda word: True
+    )
     monkeypatch.setattr(
         move_generator_agent._agent.model.llm_client,
         "acompletion",
-        AsyncMock(side_effect=[_word_response("dragon"), _word_response("rabbit"), _word_response("yogurt")]),
+        AsyncMock(
+            side_effect=[
+                _word_response("dragon"),
+                _word_response("rabbit"),
+                _word_response("yogurt"),
+            ]
+        ),
     )
     monkeypatch.setattr(
         creativity_judge_agent._agent.model.llm_client,
@@ -67,7 +83,9 @@ def test_happy_path_start_turns_trace_quit(client, monkeypatch):
         ),
     )
 
-    start_response = client.post("/game/start", json={"username": "jacky", "difficulty": "medium"})
+    start_response = client.post(
+        "/game/start", json={"username": "jacky", "difficulty": "medium"}
+    )
     assert start_response.status_code == 200
     start_body = start_response.json()
     assert start_body["ai_opening_word"] == "dragon"
@@ -105,9 +123,13 @@ def test_happy_path_start_turns_trace_quit(client, monkeypatch):
 
 
 def test_invalid_word_ends_the_game(client, monkeypatch):
-    monkeypatch.setattr(move_generator_agent, "generate_move", AsyncMock(return_value="dragon"))
+    monkeypatch.setattr(
+        move_generator_agent, "generate_move", AsyncMock(return_value="dragon")
+    )
 
-    start_response = client.post("/game/start", json={"username": "alice", "difficulty": "medium"})
+    start_response = client.post(
+        "/game/start", json={"username": "alice", "difficulty": "medium"}
+    )
     game_id = start_response.json()["game_id"]
 
     turn_response = client.post(f"/game/{game_id}/turn", json={"word": "zzz"})

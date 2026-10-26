@@ -19,8 +19,12 @@ router = APIRouter(prefix="/game", tags=["game"])
 
 
 @router.post("/start", response_model=StartGameResponse)
-async def start_game_route(request: StartGameRequest, db: Session = Depends(get_db)) -> StartGameResponse:
-    chain_session = await game_service.start_game(db, request.username, request.difficulty)
+async def start_game_route(
+    request: StartGameRequest, db: Session = Depends(get_db)
+) -> StartGameResponse:
+    chain_session = await game_service.start_game(
+        db, request.username, request.difficulty
+    )
     return StartGameResponse(
         game_id=chain_session.game_id,
         ai_opening_word=chain_session.used_words[0],
@@ -29,13 +33,19 @@ async def start_game_route(request: StartGameRequest, db: Session = Depends(get_
 
 
 @router.post("/{game_id}/turn", response_model=TurnResponse)
-async def play_turn_route(game_id: str, request: TurnRequest, db: Session = Depends(get_db)) -> TurnResponse:
+async def play_turn_route(
+    game_id: str, request: TurnRequest, db: Session = Depends(get_db)
+) -> TurnResponse:
     return await game_service.play_turn(db, game_id, request.word)
 
 
 @router.get("/{game_id}/state", response_model=GameStateResponse)
-async def get_state_route(chain_session: ChainSession = Depends(get_game_or_404)) -> GameStateResponse:
-    return GameStateResponse(**chain_session.model_dump(exclude={"turn_trace", "retry_counters"}))
+async def get_state_route(
+    chain_session: ChainSession = Depends(get_game_or_404),
+) -> GameStateResponse:
+    return GameStateResponse(
+        **chain_session.model_dump(exclude={"turn_trace", "retry_counters"})
+    )
 
 
 @router.get("/{game_id}/trace", response_model=TraceResponse)
@@ -44,7 +54,9 @@ async def get_trace_route(
     chain_session: ChainSession = Depends(get_game_or_404),
     db: Session = Depends(get_db),
 ) -> TraceResponse:
-    return TraceResponse(game_id=game_id, trace=game_repository.list_turn_traces(db, game_id))
+    return TraceResponse(
+        game_id=game_id, trace=game_repository.list_turn_traces(db, game_id)
+    )
 
 
 @router.post("/{game_id}/quit", response_model=QuitResponse)

@@ -3,7 +3,12 @@ import time
 from pydantic import BaseModel, ValidationError
 from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_fixed
 
-from app.agents.adk_runtime import RETRYABLE_LLM_ERRORS, build_llm_agent, build_runner, run_once
+from app.agents.adk_runtime import (
+    RETRYABLE_LLM_ERRORS,
+    build_llm_agent,
+    build_runner,
+    run_once,
+)
 from app.core.config import settings
 from app.models.chain_session import TraceEntry
 from app.trace.trace_logger import trace_logger as default_trace_logger
@@ -25,7 +30,9 @@ class CreativityJudgement(BaseModel):
 class CreativityJudgeAgent:
     def __init__(self, trace_logger=default_trace_logger):
         self.trace_logger = trace_logger
-        self._agent = build_llm_agent("creativity_judge", CREATIVITY_INSTRUCTION, CreativityJudgement)
+        self._agent = build_llm_agent(
+            "creativity_judge", CREATIVITY_INSTRUCTION, CreativityJudgement
+        )
         self._runner, self._session_service = build_runner(self._agent)
 
     @retry(
@@ -46,14 +53,18 @@ class CreativityJudgeAgent:
         tokens_in = tokens_out = 0
 
         try:
-            text, tokens_in, tokens_out = await self._call_llm(word, chain_session.difficulty.value)
+            text, tokens_in, tokens_out = await self._call_llm(
+                word, chain_session.difficulty.value
+            )
             result = CreativityJudgement.model_validate_json(text)
         except RETRYABLE_LLM_ERRORS:
             tool_outage = True
         except ValidationError:
             retries = 1
             try:
-                text, tokens_in, tokens_out = await self._call_llm(word, chain_session.difficulty.value)
+                text, tokens_in, tokens_out = await self._call_llm(
+                    word, chain_session.difficulty.value
+                )
                 result = CreativityJudgement.model_validate_json(text)
             except (ValidationError, *RETRYABLE_LLM_ERRORS):
                 pass
@@ -61,7 +72,9 @@ class CreativityJudgeAgent:
         if result is None:
             result = CreativityJudgement(
                 creative=False,
-                reason="fallback: judge unavailable" if tool_outage else "fallback: judge response could not be parsed",
+                reason="fallback: judge unavailable"
+                if tool_outage
+                else "fallback: judge response could not be parsed",
             )
 
         latency_ms = int((time.monotonic() - start) * 1000)

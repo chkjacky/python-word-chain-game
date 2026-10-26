@@ -20,7 +20,9 @@ RETRYABLE_LLM_ERRORS = (
 )
 
 
-def build_llm_agent(name: str, instruction: str, output_schema: type[BaseModel]) -> Agent:
+def build_llm_agent(
+    name: str, instruction: str, output_schema: type[BaseModel]
+) -> Agent:
     return Agent(
         name=name,
         model=LiteLlm(model=f"openai/{settings.OPENAI_MODEL}"),
@@ -31,15 +33,21 @@ def build_llm_agent(name: str, instruction: str, output_schema: type[BaseModel])
 
 def build_runner(agent: Agent) -> tuple[Runner, InMemorySessionService]:
     session_service = InMemorySessionService()
-    return Runner(agent=agent, app_name=APP_NAME, session_service=session_service), session_service
+    return Runner(
+        agent=agent, app_name=APP_NAME, session_service=session_service
+    ), session_service
 
 
-async def run_once(runner: Runner, session_service: InMemorySessionService, prompt: str) -> tuple[str, int, int]:
+async def run_once(
+    runner: Runner, session_service: InMemorySessionService, prompt: str
+) -> tuple[str, int, int]:
     session = await session_service.create_session(app_name=APP_NAME, user_id="system")
     content = types.Content(role="user", parts=[types.Part.from_text(text=prompt)])
     final_text = None
     tokens_in = tokens_out = 0
-    async for event in runner.run_async(user_id="system", session_id=session.id, new_message=content):
+    async for event in runner.run_async(
+        user_id="system", session_id=session.id, new_message=content
+    ):
         usage = getattr(event, "usage_metadata", None)
         if usage is not None:
             tokens_in = getattr(usage, "prompt_token_count", None) or tokens_in

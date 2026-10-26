@@ -97,7 +97,12 @@ def test_append_turn_persists_turn_row(tmp_path):
         player_word="nectar",
         ai_word="radio",
         score_delta=23,
-        score_breakdown={"base": 10, "creative": 5, "cascade": False, "length_bonus": 8},
+        score_breakdown={
+            "base": 10,
+            "creative": 5,
+            "cascade": False,
+            "length_bonus": 8,
+        },
     )
     session.close()
 
@@ -126,8 +131,14 @@ def test_list_turn_traces_returns_ordered_by_round_then_id(tmp_path):
             latency_ms=100,
             cost_usd=0.0,
             outcome="valid",
-            raw_json={"step": "validate_word", "outcome": "valid", "latency_ms": 100,
-                      "tokens_in": 0, "tokens_out": 0, "cost_usd": 0.0},
+            raw_json={
+                "step": "validate_word",
+                "outcome": "valid",
+                "latency_ms": 100,
+                "tokens_in": 0,
+                "tokens_out": 0,
+                "cost_usd": 0.0,
+            },
         )
     )
     session.add(
@@ -141,8 +152,14 @@ def test_list_turn_traces_returns_ordered_by_round_then_id(tmp_path):
             latency_ms=50,
             cost_usd=0.0,
             outcome="valid",
-            raw_json={"step": "validate_word", "outcome": "valid", "latency_ms": 50,
-                      "tokens_in": 0, "tokens_out": 0, "cost_usd": 0.0},
+            raw_json={
+                "step": "validate_word",
+                "outcome": "valid",
+                "latency_ms": 50,
+                "tokens_in": 0,
+                "tokens_out": 0,
+                "cost_usd": 0.0,
+            },
         )
     )
     session.add(
@@ -156,8 +173,15 @@ def test_list_turn_traces_returns_ordered_by_round_then_id(tmp_path):
             latency_ms=200,
             cost_usd=0.0001,
             outcome="word=radio",
-            raw_json={"step": "generate_ai_move", "outcome": "word=radio", "latency_ms": 200,
-                      "tokens_in": 10, "tokens_out": 5, "cost_usd": 0.0001, "model": "gpt-5-mini"},
+            raw_json={
+                "step": "generate_ai_move",
+                "outcome": "word=radio",
+                "latency_ms": 200,
+                "tokens_in": 10,
+                "tokens_out": 5,
+                "cost_usd": 0.0001,
+                "model": "gpt-5-mini",
+            },
         )
     )
     session.commit()
@@ -167,7 +191,11 @@ def test_list_turn_traces_returns_ordered_by_round_then_id(tmp_path):
     traces = list_turn_traces(session, "gm_1")
     session.close()
 
-    assert [t.step for t in traces] == ["validate_word", "generate_ai_move", "validate_word"]
+    assert [t.step for t in traces] == [
+        "validate_word",
+        "generate_ai_move",
+        "validate_word",
+    ]
     assert traces[0].latency_ms == 50
     assert traces[1].latency_ms == 200
     assert traces[2].latency_ms == 100

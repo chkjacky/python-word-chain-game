@@ -17,19 +17,29 @@ class DictionaryClient:
     def word_exists(self, word: str) -> bool:
         try:
             response = self._fetch(word)
-        except (httpx.TimeoutException, httpx.ConnectError, _RetryableDictionaryError) as exc:
-            raise ToolUnavailableError(f"dictionary API unavailable for '{word}'") from exc
+        except (
+            httpx.TimeoutException,
+            httpx.ConnectError,
+            _RetryableDictionaryError,
+        ) as exc:
+            raise ToolUnavailableError(
+                f"dictionary API unavailable for '{word}'"
+            ) from exc
 
         if response.status_code == 200:
             return True
         if response.status_code == 404:
             return False
-        raise ToolUnavailableError(f"dictionary API returned unexpected status {response.status_code}")
+        raise ToolUnavailableError(
+            f"dictionary API returned unexpected status {response.status_code}"
+        )
 
     @retry(
         stop=stop_after_attempt(2),
         wait=wait_fixed(0),
-        retry=retry_if_exception_type((httpx.TimeoutException, httpx.ConnectError, _RetryableDictionaryError)),
+        retry=retry_if_exception_type(
+            (httpx.TimeoutException, httpx.ConnectError, _RetryableDictionaryError)
+        ),
         reraise=True,
     )
     def _fetch(self, word: str) -> httpx.Response:

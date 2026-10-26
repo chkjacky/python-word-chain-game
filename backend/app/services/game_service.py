@@ -28,7 +28,9 @@ async def start_game(session, username: str, difficulty: Difficulty) -> ChainSes
         retry_counters=RetryCounters(),
     )
     opening_word = await move_generator_agent.generate_move(draft)
-    chain_session = draft.model_copy(update={"used_words": [opening_word], "last_letter": opening_word[-1]})
+    chain_session = draft.model_copy(
+        update={"used_words": [opening_word], "last_letter": opening_word[-1]}
+    )
     game_repository.create_game(session, chain_session)
     for entry in draft.turn_trace:
         game_repository.append_trace(session, game_id, 0, entry.model_dump())
@@ -58,10 +60,17 @@ async def play_turn(session, game_id: str, word: str) -> TurnResponse:
         chain_session.game_status = GameStatus.ENDED
         game_repository.save_game_state(session, chain_session)
         stats_service.record_game_finished(
-            session, chain_session.username, chain_session.difficulty, chain_session.total_score, completed=False
+            session,
+            chain_session.username,
+            chain_session.difficulty,
+            chain_session.total_score,
+            completed=False,
         )
         return TurnResponse(
-            accepted=False, reason=agent_result.reason, game_status=GameStatus.ENDED, round=round_played
+            accepted=False,
+            reason=agent_result.reason,
+            game_status=GameStatus.ENDED,
+            round=round_played,
         )
 
     new_streak = chain_session.cascade_streak + 1 if agent_result.creative else 0
@@ -79,11 +88,21 @@ async def play_turn(session, game_id: str, word: str) -> TurnResponse:
 
     game_repository.save_game_state(session, chain_session)
     game_repository.append_turn(
-        session, game_id, round_played, word, agent_result.ai_word, score_delta, breakdown.model_dump()
+        session,
+        game_id,
+        round_played,
+        word,
+        agent_result.ai_word,
+        score_delta,
+        breakdown.model_dump(),
     )
     if completed:
         stats_service.record_game_finished(
-            session, chain_session.username, chain_session.difficulty, chain_session.total_score, completed=True
+            session,
+            chain_session.username,
+            chain_session.difficulty,
+            chain_session.total_score,
+            completed=True,
         )
 
     return TurnResponse(
@@ -102,11 +121,19 @@ def quit_game(session, game_id: str) -> QuitResponse:
         raise GameNotFoundError(f"no such game: {game_id}")
 
     if chain_session.game_status != GameStatus.IN_PROGRESS:
-        return QuitResponse(game_status=chain_session.game_status, final_score=chain_session.total_score)
+        return QuitResponse(
+            game_status=chain_session.game_status, final_score=chain_session.total_score
+        )
 
     chain_session.game_status = GameStatus.QUIT
     game_repository.save_game_state(session, chain_session)
     stats_service.record_game_finished(
-        session, chain_session.username, chain_session.difficulty, chain_session.total_score, completed=False
+        session,
+        chain_session.username,
+        chain_session.difficulty,
+        chain_session.total_score,
+        completed=False,
     )
-    return QuitResponse(game_status=GameStatus.QUIT, final_score=chain_session.total_score)
+    return QuitResponse(
+        game_status=GameStatus.QUIT, final_score=chain_session.total_score
+    )
